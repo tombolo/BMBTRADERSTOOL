@@ -17,17 +17,17 @@
   --border-radius-sm: 4px;
 
   width: 100%;
-  min-height: 100vh;
+  height: 80vh;
   padding: 1rem;
   background: var(--darker);
   color: var(--text);
   font-family: 'Courier New', 'Fira Code', monospace;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
 
   /* Hacking Animation Background */
   .hackingAnimation {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
