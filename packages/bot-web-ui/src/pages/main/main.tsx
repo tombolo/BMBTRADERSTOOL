@@ -24,6 +24,7 @@ import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
 import Copytrading from '../copytrading';
 import Botlist from '../botlist';
+import Dptool from '../dptool';
 import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb } from 'react-icons/fa';
 
 
@@ -254,6 +255,19 @@ const AppWrapper = observer(() => {
                         >
                             <Copytrading />
                         </div>
+
+                        <div
+                            label={
+                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center' }}>
+                                    <FaCopy size={14} />
+                                    DP Tool
+                                </span>
+                            }
+                            id='id-dbot-dashboard'
+                        >
+                            <Dptool />
+                        </div>
+
 
 
 

@@ -5,7 +5,7 @@ import { observer, useStore } from '@deriv/stores';
 import { Localize } from '@deriv/translations';
 import { useDBotStore } from 'Stores/useDBotStore';
 import RecentWorkspace from '../dashboard/bot-list/recent-workspace';
-import styles from './botlist.module.scss';
+import './botlist.scss';
 
 const DashboardBotList = observer(() => {
     const { load_modal } = useDBotStore();
@@ -30,60 +30,81 @@ const DashboardBotList = observer(() => {
     );
 
     return (
-        <div className={styles.dashboard}>
-            <div className={styles.particles}>
-                {[...Array(20)].map((_, i) => (
+        <div className="bot-dashboard">
+            {/* Animated background elements */}
+            <div className="floating-shapes">
+                {[...Array(12)].map((_, i) => (
                     <div
                         key={i}
-                        className={styles.particle}
+                        className="shape"
                         style={{
-                            '--size': `${Math.random() * 6 + 3}px`,
-                            '--x': `${Math.random() * 100}%`,
-                            '--y': `${Math.random() * 100}%`,
-                            '--delay': `${Math.random() * 5}s`,
-                            '--duration': `${Math.random() * 15 + 10}s`,
-                            '--color': `hsl(${Math.random() * 60 + 200}, 80%, 70%)`
-                        } as React.CSSProperties}
+                            ['--size' as any]: `${Math.random() * 80 + 40}px`,
+                            ['--x' as any]: `${Math.random() * 100}%`,
+                            ['--y' as any]: `${Math.random() * 100}%`,
+                            ['--delay' as any]: `${Math.random() * 3}s`,
+                            ['--duration' as any]: `${Math.random() * 20 + 15}s`,
+                            ['--color' as any]: `hsla(${Math.random() * 60 + 180}, 70%, 60%, ${Math.random() * 0.1 + 0.05})`
+                        }}
                     />
                 ))}
             </div>
 
-            <div className={styles.container}>
-                <div className={styles.header}>
+            {/* Glowing orbs */}
+            <div className="orb-background">
+                <div className="orb orb-1"></div>
+                <div className="orb orb-2"></div>
+                <div className="orb orb-3"></div>
+            </div>
+
+            <div className="dashboard-container">
+                <div className="dashboard-header">
                     <div
-                        className={styles.titleContainer}
+                        className="title-section"
                         onMouseEnter={() => setIsHoveringTitle(true)}
                         onMouseLeave={() => setIsHoveringTitle(false)}
                     >
-                        <h1 className={styles.title}>
-                            <span className={`${styles.titleText} ${isHoveringTitle ? styles.titleHover : ''}`}>
+                        <h1 className="main-title">
+                            <span className={`title-text ${isHoveringTitle ? 'title-hover' : ''}`}>
                                 <Localize i18n_default_text="Bot Collection" />
                             </span>
-                            <span className={`${styles.emoji} ${isHoveringTitle ? styles.emojiHover : ''}`}>
+                            <span className={`title-emoji ${isHoveringTitle ? 'emoji-hover' : ''}`}>
                                 🤖
                             </span>
                         </h1>
-                        <p className={styles.subtitle}>
+                        <p className="subtitle">
                             <Localize i18n_default_text="Manage your automated trading strategies" />
                         </p>
                     </div>
+
+                    <div className="search-container">
+                        <div className="search-input-wrapper">
+                            <Icon icon="IcSearch" className="search-icon" />
+                            <input
+                                type="text"
+                                placeholder="Search bots..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className="search-input"
+                            />
+                        </div>
+                    </div>
                 </div>
 
-                <div className={styles.content}>
+                <div className="dashboard-content">
                     {isLoading ? (
-                        <div className={styles.loader}>
+                        <div className="skeleton-grid">
                             {[...Array(8)].map((_, i) => (
-                                <div key={i} className={styles.skeletonCard}>
-                                    <div className={styles.skeletonImage} />
-                                    <div className={styles.skeletonText} />
-                                    <div className={styles.skeletonTextSm} />
+                                <div key={i} className="skeleton-card">
+                                    <div className="skeleton-thumb"></div>
+                                    <div className="skeleton-line"></div>
+                                    <div className="skeleton-line-sm"></div>
                                 </div>
                             ))}
                         </div>
                     ) : (
                         <>
                             {filteredBots?.length > 0 ? (
-                                <div className={styles.grid}>
+                                <div className="bot-grid">
                                     {filteredBots.map((workspace, index) => (
                                         <RecentWorkspace
                                             key={workspace.id}
@@ -93,14 +114,14 @@ const DashboardBotList = observer(() => {
                                     ))}
                                 </div>
                             ) : (
-                                <div className={styles.empty}>
-                                    <div className={styles.emptyIcon}>
-                                        <Icon icon="IcBox" size={is_mobile ? 48 : 64} />
+                                <div className="empty-state">
+                                    <div className="empty-icon">
+                                        <Icon icon="IcBox" />
                                     </div>
                                     <Text as="h3" weight="bold" align="center">
                                         <Localize i18n_default_text="No bots found" />
                                     </Text>
-                                    <Text as="p" size="xs" align="center" color="less-prominent">
+                                    <Text as="p" size="xs" align="center" className="empty-text">
                                         {searchTerm ? (
                                             <Localize i18n_default_text="Try a different search term" />
                                         ) : (
