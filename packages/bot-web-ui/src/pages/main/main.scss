@@ -40,6 +40,12 @@
         }
 
         .dc-tabs {
+            span {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: flex-start; // force left alignment
+                    gap: 0px; // reduce space between icon and text
+                }
             &__active-line {
                 background-color: var(--general-main-16);
                 justify-content: flex-start !important;

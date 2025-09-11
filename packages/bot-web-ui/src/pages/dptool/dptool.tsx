@@ -129,40 +129,12 @@ const DPTool = () => {
 
     return (
         <div className={styles.quantumPredictor}>
-            {/* Animated Cyber Grid Background */}
-            <div className={styles.cyberGrid}>
-                <div className={styles.gridLines}></div>
-                <div className={styles.gridOverlay}></div>
-                {[...Array(15)].map((_, i) => (
-                    <div
-                        key={i}
-                        className={styles.gridNode}
-                        style={{
-                            // @ts-ignore
-                            '--x': `${Math.random() * 100}%`,
-                            '--y': `${Math.random() * 100}%`,
-                            '--delay': `${Math.random() * 3}s`,
-                            '--duration': `${Math.random() * 8 + 4}s`
-                        } as React.CSSProperties}
-                    ></div>
-                ))}
-            </div>
-
-            {/* Floating Data Orbs */}
-            <div className={styles.dataOrbs}>
-                {[...Array(5)].map((_, i) => (
-                    <div
-                        key={i}
-                        className={styles.dataOrb}
-                        style={{
-                            ['--size' as any]: `${Math.random() * 100 + 50}px`,
-                            ['--x' as any]: `${Math.random() * 100}%`,
-                            ['--y' as any]: `${Math.random() * 100}%`,
-                            ['--delay' as any]: `${Math.random() * 5}s`,
-                            ['--duration' as any]: `${Math.random() * 20 + 10}s`
-                        } as React.CSSProperties}
-                    ></div>
-                ))}
+            {/* Hacking Animation Background */}
+            <div className={styles.hackingAnimation}>
+                <div className={styles.codeMatrix}></div>
+                <div className={styles.binaryRain}></div>
+                <div className={styles.scanLines}></div>
+                <div className={styles.pulseEffect}></div>
             </div>
 
             <div className={styles.predictorContainer}>
@@ -176,8 +148,8 @@ const DPTool = () => {
                     <div className={styles.headerContent}>
                         <div className={styles.titleSection}>
                             <h1 className={styles.mainTitle}>
-                                <span className={styles.titleGradient}>QUANTUM</span>
-                                <span className={styles.titleAccent}>PREDICTOR</span>
+                                <span className={styles.titleGlitch}>QUANTUM</span>
+                                <span className={styles.titleHack}>PREDICTOR</span>
                             </h1>
                             <p className={styles.subtitle}>AI-Powered Market Forecasting System</p>
                         </div>
@@ -231,31 +203,24 @@ const DPTool = () => {
                         >
                             <div className={styles.panelHeader}>
                                 <h2>Select Volatility Index</h2>
-                                <div className={styles.panelBadge}>10 Markets</div>
+                                <div className={styles.panelBadge}>{volatilityMarkets.length} Markets</div>
                             </div>
 
-                            <div className={styles.marketGrid}>
-                                {volatilityMarkets.map(market => (
-                                    <motion.div
-                                        key={market.id}
-                                        className={`${styles.marketCard} ${selectedMarket === market.id ? styles.selected : ''}`}
-                                        onClick={() => !isAnalyzing && setSelectedMarket(market.id)}
-                                        whileHover={{ y: -3 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        <div className={styles.marketHeader}>
-                                            <div className={styles.marketSymbol}>{market.symbol}</div>
-                                            <div className={`${styles.volatilityBadge} ${styles[market.volatility.toLowerCase()]}`}>
-                                                {market.volatility}
-                                            </div>
-                                        </div>
-                                        <div className={styles.marketName}>{market.name}</div>
-                                        <div className={styles.marketPrice}>
-                                            {Math.random() > 0.5 ? '↗ ' : '↘ '}
-                                            {(Math.random() * 1000).toFixed(2)}
-                                        </div>
-                                    </motion.div>
-                                ))}
+                            <div className={styles.marketSelectContainer}>
+                                <select
+                                    className={styles.marketSelect}
+                                    value={selectedMarket}
+                                    onChange={(e) => setSelectedMarket(e.target.value)}
+                                    disabled={isAnalyzing}
+                                >
+                                    <option value="">Select a market</option>
+                                    {volatilityMarkets.map(market => (
+                                        <option key={market.id} value={market.id}>
+                                            {market.symbol} - {market.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <div className={styles.selectArrow}>▼</div>
                             </div>
 
                             <div className={styles.actionButtons}>
