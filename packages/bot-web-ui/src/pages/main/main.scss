@@ -40,12 +40,7 @@
         }
 
         .dc-tabs {
-            span {
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: flex-start; // force left alignment
-                    gap: 0px; // reduce space between icon and text
-                }
+            
             &__active-line {
                 background-color: var(--general-main-16);
                 justify-content: flex-start !important;
@@ -81,7 +76,7 @@
                     &--main {
                         &__tabs {
                             @include mobile-or-tablet-screen {
-                                width: 80%;
+                                width: 100%;
                                 overflow-x: auto;
                                 padding: 0.3rem 1rem 0;
                             }

@@ -22,9 +22,11 @@ const DPTool = () => {
     const [codeLines, setCodeLines] = useState<string[]>([]);
     const [showResult, setShowResult] = useState(false);
     const [activeTab, setActiveTab] = useState('markets');
+    const [hackingIntensity, setHackingIntensity] = useState(0);
 
     const analysisInterval = useRef<NodeJS.Timeout | null>(null);
     const codeInterval = useRef<NodeJS.Timeout | null>(null);
+    const hackingInterval = useRef<NodeJS.Timeout | null>(null);
 
     const volatilityMarkets = [
         { id: 'vol10', name: 'Volatility 10 Index', symbol: 'VOL10', volatility: 'High' },
@@ -39,6 +41,22 @@ const DPTool = () => {
         { id: 'vol100s', name: 'Volatility 100 (1s)', symbol: 'VOL100S', volatility: 'High' },
     ];
 
+    const startHackingEffects = () => {
+        setHackingIntensity(100);
+
+        hackingInterval.current = setInterval(() => {
+            setHackingIntensity(prev => {
+                if (prev <= 0) {
+                    if (hackingInterval.current) {
+                        clearInterval(hackingInterval.current);
+                    }
+                    return 0;
+                }
+                return prev - 2;
+            });
+        }, 100);
+    };
+
     const analyzeMarket = () => {
         if (!selectedMarket) return;
 
@@ -47,6 +65,7 @@ const DPTool = () => {
         setProgress(0);
         setCodeLines([]);
         setShowResult(false);
+        startHackingEffects();
 
         analysisInterval.current = setInterval(() => {
             setProgress(prev => {
@@ -124,6 +143,7 @@ const DPTool = () => {
         return () => {
             if (analysisInterval.current) clearInterval(analysisInterval.current);
             if (codeInterval.current) clearInterval(codeInterval.current);
+            if (hackingInterval.current) clearInterval(hackingInterval.current);
         };
     }, []);
 
@@ -135,6 +155,43 @@ const DPTool = () => {
                 <div className={styles.binaryRain}></div>
                 <div className={styles.scanLines}></div>
                 <div className={styles.pulseEffect}></div>
+                <div className={styles.hackingOverlay} style={{ opacity: hackingIntensity / 100 }}></div>
+
+                {/* Matrix Code Rain Effect */}
+                <div className={styles.matrixRain}>
+                    {Array.from({ length: 20 }).map((_, i) => (
+                        <motion.div
+                            key={i}
+                            className={styles.matrixColumn}
+                            initial={{ y: -100, opacity: 0 }}
+                            animate={{
+                                y: ["-100%", "1000%"],
+                                opacity: [0, 1, 1, 0]
+                            }}
+                            transition={{
+                                duration: 2 + Math.random() * 5,
+                                repeat: isAnalyzing ? Infinity : 0,
+                                delay: Math.random() * 2,
+                                ease: "linear"
+                            }}
+                            style={{ left: `${5 + i * 4.5}%` }}
+                        >
+                            {Array.from({ length: 30 }).map((_, j) => (
+                                <span
+                                    key={j}
+                                    className={styles.matrixChar}
+                                    style={{
+                                        animationDelay: `${j * 0.1}s`,
+                                        color: j === 0 ? '#fff' : '#00ff41',
+                                        textShadow: j === 0 ? '0px 0px 8px #fff' : '0px 0px 5px #00ff41'
+                                    }}
+                                >
+                                    {String.fromCharCode(0x30A0 + Math.random() * 96)}
+                                </span>
+                            ))}
+                        </motion.div>
+                    ))}
+                </div>
             </div>
 
             <div className={styles.predictorContainer}>
@@ -230,6 +287,14 @@ const DPTool = () => {
                                     disabled={!selectedMarket || isAnalyzing}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.98 }}
+                                    animate={isAnalyzing ? {
+                                        boxShadow: [
+                                            "0 0 5px #00ff41",
+                                            "0 0 20px #00ff41",
+                                            "0 0 5px #00ff41"
+                                        ],
+                                        transition: { duration: 1, repeat: Infinity }
+                                    } : {}}
                                 >
                                     <span className={styles.btnIcon}>⚡</span>
                                     {isAnalyzing ? 'ANALYZING...' : 'LAUNCH ANALYSIS'}
@@ -265,22 +330,18 @@ const DPTool = () => {
                                 <div className={styles.analysisDisplay}>
                                     {/* Progress Visualization */}
                                     <div className={styles.progressVisualization}>
-                                        <div className={styles.progressRing}>
-                                            <svg className={styles.ringSvg} viewBox="0 0 100 100">
-                                                <circle className={styles.ringBackground} cx="50" cy="50" r="45" />
-                                                <motion.circle
-                                                    className={styles.ringProgress}
-                                                    cx="50"
-                                                    cy="50"
-                                                    r="45"
-                                                    initial={{ strokeDashoffset: 283 }}
-                                                    animate={{ strokeDashoffset: 283 - (283 * progress) / 100 }}
+                                        <div className={styles.hackingProgress}>
+                                            <div className={styles.progressBar}>
+                                                <motion.div
+                                                    className={styles.progressFill}
+                                                    initial={{ width: "0%" }}
+                                                    animate={{ width: `${progress}%` }}
                                                     transition={{ duration: 0.3 }}
                                                 />
-                                            </svg>
-                                            <div className={styles.ringContent}>
+                                            </div>
+                                            <div className={styles.progressText}>
                                                 <span className={styles.progressValue}>{progress}%</span>
-                                                <span className={styles.progressLabel}>Complete</span>
+                                                <span className={styles.progressLabel}>COMPLETE</span>
                                             </div>
                                         </div>
 

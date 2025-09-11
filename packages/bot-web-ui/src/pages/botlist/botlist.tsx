@@ -31,21 +31,25 @@ const DashboardBotList = observer(() => {
 
     return (
         <div className={styles.dashboard}>
-            <div className={styles.particles}>
-                {[...Array(20)].map((_, i) => (
-                    <div
-                        key={i}
-                        className={styles.particle}
-                        style={{
-                            '--size': `${Math.random() * 6 + 3}px`,
-                            '--x': `${Math.random() * 100}%`,
-                            '--y': `${Math.random() * 100}%`,
-                            '--delay': `${Math.random() * 5}s`,
-                            '--duration': `${Math.random() * 15 + 10}s`,
-                            '--color': `hsl(${Math.random() * 60 + 200}, 80%, 70%)`
-                        } as React.CSSProperties}
-                    />
-                ))}
+            <div className={styles.cyberBackground}>
+                <div className={styles.gridLines}></div>
+                <div className={styles.hexagonPattern}></div>
+                <div className={styles.pulseOrbs}>
+                    {[...Array(5)].map((_, i) => (
+                        <div
+                            key={i}
+                            className={styles.pulseOrb}
+                            style={{
+                                '--size': `${Math.random() * 100 + 50}px`,
+                                '--x': `${Math.random() * 100}%`,
+                                '--y': `${Math.random() * 100}%`,
+                                '--delay': `${Math.random() * 5}s`,
+                                '--duration': `${Math.random() * 15 + 10}s`
+                            } as React.CSSProperties}
+                        />
+                    ))}
+                </div>
+                <div className={styles.scanLine}></div>
             </div>
 
             <div className={styles.container}>
@@ -66,6 +70,27 @@ const DashboardBotList = observer(() => {
                         <p className={styles.subtitle}>
                             <Localize i18n_default_text="Manage your automated trading strategies" />
                         </p>
+                    </div>
+
+                    <div className={styles.searchContainer}>
+                        <div className={styles.searchInputWrapper}>
+                            <Icon icon="IcSearch" className={styles.searchIcon} />
+                            <input
+                                type="text"
+                                placeholder="Search bots..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                className={styles.searchInput}
+                            />
+                            {searchTerm && (
+                                <button
+                                    className={styles.clearSearch}
+                                    onClick={() => setSearchTerm('')}
+                                >
+                                    <Icon icon="IcCloseCircle" />
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -97,10 +122,10 @@ const DashboardBotList = observer(() => {
                                     <div className={styles.emptyIcon}>
                                         <Icon icon="IcBox" size={is_mobile ? 48 : 64} />
                                     </div>
-                                    <Text as="h3" weight="bold" align="center">
+                                    <Text as="h3" weight="bold" align="center" className={styles.emptyTitle}>
                                         <Localize i18n_default_text="No bots found" />
                                     </Text>
-                                    <Text as="p" size="xs" align="center" color="less-prominent">
+                                    <Text as="p" size="xs" align="center" className={styles.emptyText}>
                                         {searchTerm ? (
                                             <Localize i18n_default_text="Try a different search term" />
                                         ) : (

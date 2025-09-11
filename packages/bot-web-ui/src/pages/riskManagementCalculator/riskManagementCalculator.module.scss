@@ -1,151 +1,269 @@
+// riskManagementCalculator.module.scss
+
 .container {
-    height: 75vh;
-    width: 100vw;
-    background: radial-gradient(circle at 10% 20%, rgba(42,48,82,0.9) 0%, rgba(10,14,44,0.9) 90%);
+    height: 80vh;
+    width: 100%;
+    background: linear-gradient(135deg, #414652 0%, #a9e3bc 100%);
     padding: 2rem;
     position: relative;
     overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-.backgroundCircle1 {
+.animatedBackground {
     position: absolute;
-    top: 20%;
-    left: 10%;
-    width: 400px;
-    height: 400px;
-    background: rgba(74, 95, 179, 0.15);
-    border-radius: 50%;
-    filter: blur(60px);
-    animation: float 8s ease-in-out infinite;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     z-index: 0;
 }
 
-.backgroundCircle2 {
+.floatingParticle {
     position: absolute;
-    top: 60%;
-    right: 10%;
-    width: 300px;
-    height: 300px;
-    background: rgba(255, 68, 79, 0.15);
+    background: rgba(99, 102, 241, 0.4);
     border-radius: 50%;
-    filter: blur(60px);
-    animation: float 10s ease-in-out infinite 2s;
-    z-index: 0;
+    animation: floatParticle var(--duration) ease-in-out var(--delay) infinite;
+    top: -10%;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, rgba(99, 102, 241, 0.8), rgba(168, 85, 247, 0.6));
+        border-radius: 50%;
+        filter: blur(5px);
+    }
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .mainContent {
     max-width: 1200px;
-    margin: 0 auto;
-    background-color: rgba(42, 48, 82, 0.8);
-    border-radius: 20px;
-    padding: 2rem;
+    width: 100%;
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 2.5rem;
     position: relative;
     z-index: 1;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 255, 0) 0%, 
+            rgba(255, 255, 255, 0.2) 50%, 
+            rgba(255, 255, 255, 0) 100%);
+    }
 }
 
 .title {
     text-align: center;
-    margin-bottom: 2rem;
-    background: linear-gradient(90deg, #FFFFFF 0%, #E2E8F0 100%);
+    margin-bottom: 2.5rem;
+    position: relative;
+}
+
+.titleText {
+    background: linear-gradient(90deg, #818cf8 0%, #a5b4fc 50%, #c7d2fe 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: 2.5rem;
-    font-weight: 700;
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    display: inline-block;
     position: relative;
+    text-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
 }
 
 .titleUnderline {
     position: absolute;
-    bottom: -10px;
+    bottom: -12px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
+    width: 120px;
     height: 4px;
-    background: linear-gradient(90deg, #4A5FB3 0%, #4BB4B3 100%);
+    background: linear-gradient(90deg, #6366F1 0%, #8B5CF6 100%);
     border-radius: 2px;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
 }
 
 .contentWrapper {
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 2.5rem;
     flex-wrap: wrap;
     justify-content: center;
 }
 
 .inputColumn, .resultsColumn {
-    flex: 1 1 300px;
-    background-color: rgba(30, 36, 64, 0.6);
-    border-radius: 16px;
+    flex: 1 1 400px;
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 20px;
     padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.4s ease;
+    
+    &.calculated {
+        box-shadow: 
+            0 10px 30px rgba(0, 0, 0, 0.2),
+            inset 0 0 0 1px rgba(99, 102, 241, 0.3),
+            0 0 30px rgba(99, 102, 241, 0.2);
+    }
 }
 
 .label {
-    display: block;
-    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.2rem;
     font-weight: 600;
-    color: #E2E8F0;
-    font-size: 1rem;
+    color: #e2e8f0;
+    font-size: 1.1rem;
+    gap: 0.5rem;
+}
+
+.labelIcon {
+    font-size: 1.3rem;
 }
 
 .display {
-    padding: 1rem;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
-    font-size: 1.5rem;
-    background-color: rgba(255,255,255,0.05);
-    margin-bottom: 1.5rem;
+    padding: 1.2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 1.8rem;
+    background: rgba(15, 23, 42, 0.5);
+    margin-bottom: 1.8rem;
     text-align: right;
-    font-weight: 600;
-    color: #FFFFFF;
-    height: 60px;
+    font-weight: 700;
+    color: #f1f5f9;
+    height: 70px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.displayCurrencyGlow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(99, 102, 241, 0.1) 50%, 
+        transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    
+    .display:hover & {
+        opacity: 1;
+    }
 }
 
 .keypad {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 1.5rem;
+    gap: 12px;
+    margin-bottom: 1.8rem;
 }
 
 .keypadButton {
-    padding: 1rem;
-    font-size: 1.2rem;
+    padding: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
-    border-radius: 10px;
+    border-radius: 12px;
     border: none;
-    color: #FFFFFF;
+    color: #e2e8f0;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-
+    position: relative;
+    overflow: hidden;
+    background: rgba(30, 41, 59, 0.7);
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    
     &:hover {
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+        box-shadow: 
+            0 7px 14px rgba(0, 0, 0, 0.2),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    
+    &:active {
+        transform: translateY(1px);
     }
 }
 
 .numberButton {
-    background: rgba(255,255,255,0.1);
-
+    background: rgba(30, 41, 59, 0.7);
+    
     &:hover {
-        background: rgba(255,255,255,0.2);
+        background: rgba(51, 65, 85, 0.7);
     }
 }
 
 .deleteButton {
-    background: rgba(255,68,79,0.2);
-
+    background: rgba(239, 68, 68, 0.2);
+    
     &:hover {
-        background: rgba(255,68,79,0.3);
+        background: rgba(239, 68, 68, 0.3);
     }
+}
+
+.buttonRipple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+.keypadButton:active .buttonRipple {
+    animation: ripple 0.6s linear;
 }
 
 .buttonGroup {
@@ -154,112 +272,342 @@
     flex-wrap: wrap;
 }
 
-.calculateButton {
+.calculateButton, .resetButton {
     flex: 1 1 45%;
-    padding: 1rem;
-    background: linear-gradient(135deg, #4A5FB3 0%, #4BB4B3 100%);
-    color: w;
+    padding: 1.2rem;
     border: none;
-    border-radius: 10px;
-    font-size: 1rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(74, 95, 179, 0.3);
-
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
     &:hover {
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+    }
+    
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+}
+
+.calculateButton {
+    background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+    color: white;
+    box-shadow: 
+        0 4px 15px rgba(99, 102, 241, 0.4),
+        0 0 0 0 rgba(99, 102, 241, 0.5);
+    
+    &:hover:not(:disabled) {
+        box-shadow: 
+            0 7px 20px rgba(99, 102, 241, 0.6),
+            0 0 0 10px rgba(99, 102, 241, 0);
+        animation: pulse 1.5s infinite;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 
+            0 4px 15px rgba(99, 102, 241, 0.4),
+            0 0 0 0 rgba(99, 102, 241, 0.5);
+    }
+    70% {
+        box-shadow: 
+            0 4px 15px rgba(99, 102, 241, 0.4),
+            0 0 0 10px rgba(99, 102, 241, 0);
+    }
+    100% {
+        box-shadow: 
+            0 4px 15px rgba(99, 102, 241, 0.4),
+            0 0 0 0 rgba(99, 102, 241, 0);
+    }
+}
+
+.buttonSparkle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    opacity: 0;
+    animation: sparkle 2s infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0);
+    }
+    25% {
+        opacity: 1;
+        transform: translate(10px, -15px) scale(1);
+    }
+    50% {
+        opacity: 0;
+        transform: translate(20px, -10px) scale(0);
     }
 }
 
 .resetButton {
-    flex: 1 1 45%;
-    padding: 1rem;
-    background: linear-gradient(135deg, #FF444F 0%, #C0392B 100%);
-    color: #FFFFFF;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 68, 79, 0.3);
-
+    background: linear-gradient(135deg, #475569 0%, #334155 100%);
+    color: #e2e8f0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    
     &:hover {
-        transform: translateY(-2px);
+        box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
     }
 }
 
 .resultsTitle {
-    color: #FFFFFF;
+    color: #f8fafc;
     margin-top: 0;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
     text-align: center;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.resultsTitleAnimation {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, #6366F1 0%, #8B5CF6 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 30px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+        animation: shimmer 2s infinite;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -30px;
+    }
+    100% {
+        left: calc(100% + 30px);
+    }
 }
 
 .resultsGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
+}
+
+.resultCard {
+    padding: 1.5rem;
+    border-radius: 16px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    
+    &.animateIn {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cardIcon {
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
+    display: inline-block;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+    
+    .resultCard:hover & {
+        transform: translateY(-5px);
+    }
+}
+
+.cardContent {
+    position: relative;
+    z-index: 2;
+}
+
+.cardTitle {
+    color: #e2e8f0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.cardValue {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cardGlow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, var(--glow-color) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1;
+    pointer-events: none;
+    
+    .resultCard:hover & {
+        opacity: 0.05;
+    }
+}
+
+.warningBox, .infoBox {
+    padding: 1.5rem;
+    border-radius: 16px;
     margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+    
+    &.animateIn {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .warningBox {
-    background-color: rgba(255, 193, 7, 0.1);
-    padding: 1.5rem;
-    border-radius: 10px;
-    border-left: 4px solid rgba(255, 193, 7, 0.7);
-    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.1) 100%);
+    border-left: 4px solid rgba(245, 158, 11, 0.7);
 }
 
 .warningTitle {
-    color: #E2E8F0;
-    font-size: 0.9rem;
+    color: #f8fafc;
+    font-size: 1rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 .warningContent {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
     padding: 1rem;
-    background-color: rgba(255,255,255,0.1);
-    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 12px;
     text-align: center;
-    border: 1px dashed rgba(255, 193, 7, 0.3);
+    border: 1px dashed rgba(245, 158, 11, 0.3);
+    position: relative;
+    overflow: hidden;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            transparent, 
+            rgba(245, 158, 11, 0.2), 
+            transparent);
+        animation: shimmer 3s infinite;
+    }
 }
 
 .infoBox {
-    background-color: rgba(74, 95, 179, 0.1);
-    padding: 1.5rem;
-    border-radius: 10px;
-    border-left: 4px solid #4A5FB3;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(79, 70, 229, 0.1) 100%);
+    border-left: 4px solid rgba(99, 102, 241, 0.7);
+    position: relative;
 }
 
 .infoTitle {
-    color: #E2E8F0;
-    font-size: 0.9rem;
+    color: #e2e8f0;
+    font-size: 1rem;
     font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-bottom: 0.8rem;
 }
 
 .infoValue {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #FFFFFF;
-    margin-top: 0.5rem;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    background: rgba(15, 23, 42, 0.4);
 }
 
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0px); }
+.valuePulse {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    background: rgba(99, 102, 241, 0.3);
+    opacity: 0;
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0% {
+        opacity: 0;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.05);
+    }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .mainContent {
+        padding: 1.5rem;
+    }
+    
+    .titleText {
+        font-size: 2rem;
+    }
+    
+    .inputColumn, .resultsColumn {
+        padding: 1.5rem;
+    }
+    
+    .resultsGrid {
+        grid-template-columns: 1fr;
+    }
 }

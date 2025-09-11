@@ -90,6 +90,38 @@
       background: radial-gradient(circle, transparent 10%, var(--darker) 90%);
       animation: pulseGlow 5s infinite alternate;
     }
+    
+    .hackingOverlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(0, 255, 65, 0.2) 0%, transparent 70%);
+      animation: hackPulse 0.5s infinite alternate;
+    }
+    
+    .matrixRain {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    
+    .matrixColumn {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .matrixChar {
+      display: block;
+      animation: matrixFlicker 1s infinite;
+      opacity: 0.7;
+    }
   }
 
   .predictorContainer {
@@ -345,8 +377,383 @@
     }
   }
 
-  /* Rest of the CSS remains similar but with updated colors */
-  /* ... (truncated for brevity) */
+  /* Progress Visualization */
+  .progressVisualization {
+    margin-bottom: 1.5rem;
+    
+    .hackingProgress {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      
+      .progressBar {
+        flex: 1;
+        height: 8px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 4px;
+        overflow: hidden;
+        position: relative;
+        
+        .progressFill {
+          height: 100%;
+          background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+          border-radius: 4px;
+          box-shadow: 0 0 10px var(--primary);
+        }
+      }
+      
+      .progressText {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .progressValue {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: var(--primary);
+        }
+        
+        .progressLabel {
+          font-size: 0.7rem;
+          color: var(--text-secondary);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+      }
+    }
+    
+    .progressStages {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      padding-top: 1rem;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: rgba(0, 255, 65, 0.2);
+      }
+      
+      .stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        position: relative;
+        color: var(--text-secondary);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        
+        &.active {
+          color: var(--primary);
+          
+          .stageDot {
+            background: var(--primary);
+            box-shadow: 0 0 8px var(--primary);
+          }
+        }
+        
+        .stageDot {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background: rgba(0, 255, 65, 0.3);
+          transition: var(--transition);
+        }
+      }
+    }
+  }
+
+  /* Quantum Terminal */
+  .quantumTerminal {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--primary);
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+    
+    .terminalHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 255, 65, 0.1);
+      border-bottom: 1px solid var(--primary);
+      
+      .terminalTitle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+        color: var(--primary);
+        
+        .pulseDot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: var(--secondary);
+          animation: pulse 1s infinite;
+        }
+      }
+      
+      .terminalActions {
+        display: flex;
+        gap: 0.5rem;
+        
+        button {
+          width: 20px;
+          height: 20px;
+          border: none;
+          border-radius: 2px;
+          background: rgba(0, 255, 65, 0.2);
+          color: var(--text);
+          cursor: pointer;
+          font-size: 0.7rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          
+          &:hover {
+            background: rgba(0, 255, 65, 0.3);
+          }
+        }
+      }
+    }
+    
+    .terminalContent {
+      padding: 1rem;
+      height: 200px;
+      overflow-y: auto;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: rgba(0, 255, 65, 0.1);
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 2px;
+      }
+      
+      .terminalLine {
+        margin-bottom: 0.2rem;
+        
+        .linePrefix {
+          color: var(--accent);
+        }
+        
+        .lineText {
+          color: var(--text);
+        }
+        
+        .terminalCursor {
+          color: var(--primary);
+          animation: blink 1s infinite;
+        }
+      }
+    }
+  }
+
+  /* Results Display */
+  .resultsDisplay {
+    margin-top: 1.5rem;
+    
+    .resultsHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      
+      h3 {
+        margin: 0;
+        font-size: 1rem;
+        color: var(--light);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      
+      .resultBadge {
+        padding: 0.3rem 0.8rem;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        
+        &.success {
+          background: rgba(0, 255, 65, 0.2);
+          color: var(--primary);
+        }
+      }
+    }
+    
+    .predictionCard {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--card-border);
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      
+      .predictionHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+        
+        .marketInfo {
+          .marketSymbol {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.2rem;
+          }
+          
+          .marketName {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+          }
+        }
+        
+        .directionIndicator {
+          padding: 0.5rem 1rem;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          
+          &.bullish {
+            background: rgba(0, 255, 65, 0.2);
+            color: var(--primary);
+          }
+          
+          &.bearish {
+            background: rgba(255, 0, 60, 0.2);
+            color: var(--secondary);
+          }
+        }
+      }
+      
+      .confidenceMeter {
+        margin-bottom: 1.5rem;
+        
+        .meterHeader {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+          font-size: 0.8rem;
+          color: var(--text-secondary);
+        }
+        
+        .meterBar {
+          height: 8px;
+          background: rgba(0, 0, 0, 0.5);
+          border-radius: 4px;
+          overflow: hidden;
+          
+          .meterFill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+            border-radius: 4px;
+            box-shadow: 0 0 10px var(--primary);
+          }
+        }
+      }
+      
+      .predictionDetails {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        
+        .detailRow {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.5rem 0;
+          border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+          
+          .detailLabel {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+          }
+          
+          .detailValue {
+            font-weight: 600;
+            color: var(--text);
+          }
+        }
+      }
+      
+      .predictionFooter {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+        .timestamp {
+          font-size: 0.8rem;
+          color: var(--text-secondary);
+        }
+        
+        .tradeBtn {
+          padding: 0.5rem 1.5rem;
+          background: var(--primary);
+          color: var(--dark);
+          border: none;
+          border-radius: var(--border-radius-sm);
+          font-weight: 700;
+          cursor: pointer;
+          transition: var(--transition);
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          
+          &:hover {
+            box-shadow: 0 0 10px var(--primary);
+          }
+        }
+      }
+    }
+  }
+
+  .analysisPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    text-align: center;
+    color: var(--text-secondary);
+    
+    .placeholderIcon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+    
+    h3 {
+      margin: 0 0 0.5rem 0;
+      color: var(--light);
+    }
+    
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
 
   // Animations
   @keyframes matrixMove {
@@ -384,6 +791,24 @@
       opacity: 0.8;
     }
   }
+  
+  @keyframes hackPulse {
+    0% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0.4;
+    }
+  }
+  
+  @keyframes matrixFlicker {
+    0%, 100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 0.2;
+    }
+  }
 
   @keyframes glitch {
     0% {
@@ -400,6 +825,24 @@
     }
     100% {
       text-shadow: 2px 2px 0 var(--secondary), -2px -2px 0 var(--accent);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
     }
   }
 
