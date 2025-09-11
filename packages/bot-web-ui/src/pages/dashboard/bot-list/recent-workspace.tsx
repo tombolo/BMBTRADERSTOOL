@@ -4,9 +4,11 @@ import { useDBotStore } from 'Stores/useDBotStore';
 import { TRecentStrategy } from './types';
 import './recent-workspace.scss';
 
-const BOT_EMOJIS = ['🤖', '👾', '🦾', '🧠', '⚡', '💻', '🔮', '🎮'];
+// Replacing emojis with modern trading icons
+const BOT_ICONS = [
+    '📊', '📈', '📉', '⚡', '🔍', '🎯', '🔄', '💹'
+];
 
-// Sample descriptions - you would replace with actual bot descriptions
 const BOT_DESCRIPTIONS = [
     "This bot uses moving averages to identify trends. It enters trades when short-term averages cross above long-term ones.",
     "A volatility-based bot that expands position size during high volatility. It uses Bollinger Bands to determine entry points.",
@@ -23,31 +25,68 @@ const RecentWorkspace = observer(({ workspace, index }: { workspace: TRecentStra
 
     const handleClick = async () => {
         await load_modal.loadFileFromRecent();
-        dashboard.setActiveTab(1); // BOT_BUILDER
+        dashboard.setActiveTab(1);
     };
 
-    const randomEmoji = BOT_EMOJIS[index % BOT_EMOJIS.length];
+    const botIcon = BOT_ICONS[index % BOT_ICONS.length];
     const botDescription = BOT_DESCRIPTIONS[index % BOT_DESCRIPTIONS.length];
 
     return (
-        <div className="dbot-workspace-card" onClick={handleClick} data-index={index}>
-            <div className="dbot-workspace-card__border-light"></div>
-            <div className="dbot-workspace-card__emoji">{randomEmoji}</div>
-            <div className="dbot-workspace-card__content">
-                <div className="dbot-workspace-card__header">
-                    <div className="dbot-workspace-card__name">
-                        {workspace.name || 'Untitled Bot'}
+        <div className="trading-bot-card" onClick={handleClick} data-index={index}>
+            {/* Background Elements */}
+            <div className="trading-bot-card__background">
+                <div className="trading-bot-card__grid"></div>
+                <div className="trading-bot-card__gradient"></div>
+            </div>
+
+            {/* Animated Connection Nodes */}
+            <div className="trading-bot-card__nodes">
+                {[...Array(4)].map((_, i) => (
+                    <div key={i} className="trading-bot-card__node"></div>
+                ))}
+            </div>
+
+            {/* Content */}
+            <div className="trading-bot-card__content">
+                <div className="trading-bot-card__header">
+                    <div className="trading-bot-card__icon">{botIcon}</div>
+                    <div className="trading-bot-card__title-section">
+                        <h3 className="trading-bot-card__name">{workspace.name || 'Untitled Bot'}</h3>
+                        <div className="trading-bot-card__status">
+                            <span className="trading-bot-card__status-indicator"></span>
+                            <span className="trading-bot-card__status-text">Ready</span>
+                        </div>
                     </div>
-                    <button className="dbot-workspace-card__action">
-                        <span>Load</span>
-                        <div className="dbot-workspace-card__arrow">→</div>
+                </div>
+
+                <p className="trading-bot-card__description">{botDescription}</p>
+
+                <div className="trading-bot-card__footer">
+                    <div className="trading-bot-card__metrics">
+                        <div className="trading-bot-card__metric">
+                            <span className="trading-bot-card__metric-value">78%</span>
+                            <span className="trading-bot-card__metric-label">Success</span>
+                        </div>
+                        <div className="trading-bot-card__metric">
+                            <span className="trading-bot-card__metric-value">24h</span>
+                            <span className="trading-bot-card__metric-label">Active</span>
+                        </div>
+                    </div>
+
+                    <button className="trading-bot-card__action">
+                        <span>Load Strategy</span>
+                        <div className="trading-bot-card__action-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </div>
                     </button>
                 </div>
-                <div className="dbot-workspace-card__description">
-                    {botDescription}
-                </div>
             </div>
-            <div className="dbot-workspace-card__shine"></div>
+
+            {/* Hover Effects */}
+            <div className="trading-bot-card__shine"></div>
+            <div className="trading-bot-card__border"></div>
         </div>
     );
 });
