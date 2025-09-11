@@ -42,7 +42,7 @@
         linear-gradient(rgba(0, 245, 212, 0.1) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 245, 212, 0.1) 1px, transparent 1px);
       background-size: 50px 50px;
-      mask-image: radial-gradient(circle at center, black 20%, transparent 70%);
+      mask-image: radial-gradient(circle at center, rgb(12, 8, 8) 20%, transparent 70%);
     }
 
     .grid-overlay {
