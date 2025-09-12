@@ -227,7 +227,7 @@ const AppWrapper = observer(() => {
                                     Analysis Tool
                                 </span>
                             }
-                            id='id-dbot-dashboard'
+                            id='id-finesttool'
                         >
                             <Finesttool />
                         </div>
@@ -239,7 +239,7 @@ const AppWrapper = observer(() => {
                                     Copy Trading
                                 </span>
                             }
-                            id='id-dbot-dashboard'
+                            id='id-copy-trading'
                         >
                             <Copytrading />
                         </div>
@@ -251,7 +251,7 @@ const AppWrapper = observer(() => {
                                     DP Tool
                                 </span>
                             }
-                            id='id-dbot-dashboard'
+                            id='id-dp-tool'
                         >
                             <Dptool />
                         </div>
