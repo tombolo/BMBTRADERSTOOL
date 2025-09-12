@@ -26,6 +26,7 @@ import Copytrading from '../copytrading';
 import Botlist from '../botlist';
 import Dptool from '../dptool';
 import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb } from 'react-icons/fa';
+import { MdSchema, MdGridOn } from 'react-icons/md';
 
 
 const AppWrapper = observer(() => {
@@ -246,7 +247,7 @@ const AppWrapper = observer(() => {
                         <div
                             label={
                                 <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
-                                    <FaCopy size={14} />
+                                    <MdSchema size={14} />
                                     DP Tool
                                 </span>
                             }
