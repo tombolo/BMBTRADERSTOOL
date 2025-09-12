@@ -7,6 +7,7 @@ const GlobalLoading = () => {
     const [progress, setProgress] = useState(0);
     const controls = useAnimation();
     const [showElements, setShowElements] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
     const [marketData, setMarketData] = useState({
         eurusd: `1.08${Math.floor(Math.random() * 9)}`,
         btcusd: `6${Math.floor(Math.random() * 9000) + 1000}`,
@@ -15,8 +16,26 @@ const GlobalLoading = () => {
         sp500: `4,7${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}`,
     });
 
+    // Check if device is mobile
     useEffect(() => {
-        // Update market data every 1.5 seconds
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+
+        return () => {
+            window.removeEventListener('resize', checkMobile);
+        };
+    }, []);
+
+    useEffect(() => {
+        // Reduce animation intensity on mobile for better performance
+        const dataPointCount = isMobile ? 15 : 25;
+        const binaryRainCount = isMobile ? 15 : 30;
+
+        // Update market data interval
         const marketInterval = setInterval(() => {
             setMarketData({
                 eurusd: `1.08${Math.floor(Math.random() * 9)}`,
@@ -27,7 +46,7 @@ const GlobalLoading = () => {
             });
         }, 1500);
 
-        // 10 second progress timer
+        // Progress timer
         const progressInterval = setInterval(() => {
             setProgress(prev => {
                 const newProgress = prev + 1;
@@ -49,7 +68,7 @@ const GlobalLoading = () => {
             clearInterval(progressInterval);
             clearInterval(marketInterval);
         };
-    }, []);
+    }, [isMobile]);
 
     const chartPath = `M 0,50 
                     C 50,30 100,70 150,40 
@@ -71,9 +90,9 @@ const GlobalLoading = () => {
                 <div className='grid-overlay'></div>
             </div>
 
-            {/* Floating data points */}
+            {/* Floating data points - reduced on mobile */}
             <div className='data-points-container'>
-                {Array.from({ length: 25 }).map((_, i) => (
+                {Array.from({ length: isMobile ? 15 : 25 }).map((_, i) => (
                     <motion.div
                         key={i}
                         className='data-point'
@@ -95,9 +114,9 @@ const GlobalLoading = () => {
                 ))}
             </div>
 
-            {/* Binary rain effect */}
+            {/* Binary rain effect - reduced on mobile */}
             <div className='binary-rain'>
-                {Array.from({ length: 30 }).map((_, i) => (
+                {Array.from({ length: isMobile ? 15 : 30 }).map((_, i) => (
                     <motion.div
                         key={i}
                         className='binary-digit'
@@ -175,7 +194,12 @@ const GlobalLoading = () => {
                                 <div className='grid-line'></div>
                             </div>
 
-                            <svg width='100%' height='160' viewBox='0 0 1000 100' className='chart-svg'>
+                            <svg
+                                width='100%'
+                                height={isMobile ? '120' : '160'}
+                                viewBox='0 0 1000 100'
+                                className='chart-svg'
+                            >
                                 <defs>
                                     <linearGradient id='chartGradient' x1='0%' y1='0%' x2='100%' y2='0%'>
                                         <stop offset='0%' stopColor='#FF444F' />
@@ -202,7 +226,7 @@ const GlobalLoading = () => {
                                         <motion.circle
                                             cx='0'
                                             cy='50'
-                                            r='6'
+                                            r={isMobile ? '4' : '6'}
                                             fill='url(#chartGradient)'
                                             initial={{ x: 0 }}
                                             animate={{
@@ -223,7 +247,7 @@ const GlobalLoading = () => {
 
                             {/* Candlestick animation */}
                             <div className='candlestick-animation'>
-                                {Array.from({ length: 15 }).map((_, i) => (
+                                {Array.from({ length: isMobile ? 10 : 15 }).map((_, i) => (
                                     <motion.div
                                         key={i}
                                         className='candlestick'
@@ -238,7 +262,7 @@ const GlobalLoading = () => {
                                             duration: 0.5,
                                             repeat: Infinity,
                                             repeatType: 'reverse',
-                                            repeatDelay: 15 * 0.1,
+                                            repeatDelay: (isMobile ? 10 : 15) * 0.1,
                                         }}
                                     >
                                         <div className='wick' />
@@ -444,7 +468,7 @@ const GlobalLoading = () => {
 
             {/* Connection nodes animation */}
             <div className='connection-nodes'>
-                {Array.from({ length: 8 }).map((_, i) => (
+                {Array.from({ length: isMobile ? 6 : 8 }).map((_, i) => (
                     <motion.div
                         key={i}
                         className='node'
