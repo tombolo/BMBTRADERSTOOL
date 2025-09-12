@@ -23,24 +23,12 @@ body {
 }
 
 /* Color Themes for Different Sections */
-.controls {
-    --primary-color: #6A57FF; /* Purple */
-    --secondary-color: #9D8DFF;
-}
 
-.predictions-container {
-    --primary-color: #FF5E7D; /* Pink */
-    --secondary-color: #FF8FA3;
-}
+
 
 #chartContainer {
     --primary-color: #2EC4B6; /* Teal */
     --secondary-color: #59E3D1;
-}
-
-#slidingListContainer {
-    --primary-color: #FFD166; /* Yellow */
-    --secondary-color: #FFDF8E;
 }
 
 /* Apply the color themes */
@@ -56,6 +44,8 @@ body {
     box-shadow: 0 0 15px rgba(106, 87, 255, 0.3);
     transition: all 0.3s ease;
     border: 1px solid var(--primary-color);
+    --primary-color: #6A57FF; /* Purple */
+    --secondary-color: #9D8DFF;
 }
 
 .controls:hover {
@@ -150,6 +140,8 @@ button:hover {
     align-items: center;
     box-sizing: border-box;
     border: 1px solid #6A57FF;
+    animation: rainbow-border 8s infinite linear;
+    border-width: 2px;
 }
 
 
@@ -186,6 +178,8 @@ button:hover {
 }
 
 .predictions-container {
+    --primary-color: #FF5E7D; /* Pink */
+    --secondary-color: #FF8FA3;
     text-align: center;
     margin: 20px auto;
     width: fit-content;
@@ -264,6 +258,8 @@ h2 {
 }
 
 #slidingListContainer {
+    --primary-color: #FFD166; /* Yellow */
+    --secondary-color: #FFDF8E;
     width: 100%;
     overflow: hidden;
     background-color: rgba(40, 35, 20, 0.7);
@@ -317,10 +313,7 @@ h2 {
     100% { border-color: #FF9E3F; }
 }
 
-.container {
-    animation: rainbow-border 8s infinite linear;
-    border-width: 2px;
-}
+
 
 /* Colorful hover effects for buttons */
 button:nth-child(odd):hover {

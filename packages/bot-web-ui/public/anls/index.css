@@ -8,9 +8,7 @@ body {
         color: #ffa500; /* Default color */
         transition: color 0.5s ease; /* Smooth transition for color change */
 }
-.controls label {
-    font-family: 'Roboto', sans-serif;
-}
+
 
 /* Add more selectors as needed to ensure consistency */
 
@@ -29,6 +27,7 @@ h1 {
 }
 
 .controls label {
+    font-family: 'Roboto', sans-serif;
     display: block;
     font-size: 1.5em; /* Increase font size */
     margin-bottom: 10px;
