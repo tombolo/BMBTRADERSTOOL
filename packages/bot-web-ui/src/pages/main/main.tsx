@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy } from 'react';
 import { routes } from '@deriv/shared';
 import classNames from 'classnames';
 import { updateWorkspaceName } from '@deriv/bot-skeleton';
@@ -24,7 +24,6 @@ import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
 import Copytrading from '../copytrading';
 import Botlist from '../botlist';
-import Dptool from '../dptool';
 import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb } from 'react-icons/fa';
 import { MdSchema, MdGridOn } from 'react-icons/md';
 
@@ -55,6 +54,7 @@ const AppWrapper = observer(() => {
     const init_render = React.useRef(true);
     const { ui } = useStore();
     const { url_hashed_values, is_desktop } = ui;
+    const Dptool = lazy(() => import('../dptool/dptool'));
 
 
     const hash = ['dashboard', 'bot_builder', 'chart', 'botlist', 'finesttool', 'copytrading','dptool', 'risk_management_calculator', 'strategy'];
