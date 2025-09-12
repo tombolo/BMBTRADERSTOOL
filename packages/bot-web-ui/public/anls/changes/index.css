@@ -91,7 +91,7 @@ body {
 button {
     background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
     border: none;
-    color: white;
+    color: rgb(242, 241, 241);
     padding: 12px 24px;
     text-align: center;
     text-decoration: none;
@@ -134,7 +134,7 @@ button:hover {
     align-items: center;
     font-size: 18px;
     font-weight: bold;
-    color: white;
+    color: #ffffff;
     transition: all 0.3s;
     box-shadow: 0 0 10px rgba(255, 158, 63, 0.5);
 }
@@ -152,20 +152,7 @@ button:hover {
     border: 1px solid #6A57FF;
 }
 
-.digit-bar {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    margin: 5px;
-    background: linear-gradient(145deg, #FF9E3F, #FF7B00);
-    color: white;
-    text-align: center;
-    line-height: 40px;
-    border-radius: 50%;
-    font-size: 20px;
-    position: relative;
-    transition: all 0.3s ease;
-}
+
 
 .digit-bar:hover {
     transform: scale(1.1);
@@ -184,7 +171,7 @@ button:hover {
 
 .digit-bar.highlight {
     background: linear-gradient(145deg, #6A57FF, #4D3AC1);
-    color: white;
+    color: #ffffff;
     box-shadow: 0 0 15px rgba(106, 87, 255, 0.8);
     animation: glow 1s infinite alternate;
 }
@@ -233,7 +220,7 @@ h2 {
     padding: 25px;
     text-align: center;
     font-size: 15px;
-    color: white;
+    color: #ffffff;
     transition: all 0.3s ease;
 }
 
@@ -253,7 +240,7 @@ h2 {
     margin-top: 20px;
     padding: 25px;
     background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
-    color: white;
+    color: rgb(230, 228, 228);
     border: none;
     font-size: 16px;
     cursor: pointer;
@@ -300,13 +287,13 @@ h2 {
 }
 
 .even-item {
-    color: white;
+    color: #ffffff;
     background: linear-gradient(145deg, #2EC4B6, #1EAE9E);
     box-shadow: 0 0 10px rgba(46, 196, 182, 0.7);
 }
 
 .odd-item {
-    color: white;
+    color: #ffffff;
     background: linear-gradient(145deg, #6A57FF, #4D3AC1);
     box-shadow: 0 0 10px rgba(106, 87, 255, 0.7);
 }

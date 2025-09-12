@@ -68,7 +68,7 @@ h1 {
 button {
     background-color: #ff6f00;
     border: none;
-    color: white;
+    color: rgb(218, 217, 217);
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
@@ -122,19 +122,6 @@ button:hover {
     box-sizing: border-box; 
 }
 
-.digit-bar {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    margin: 5px;
-    background-color: #ffa500;
-    color: #000000;
-    text-align: center;
-    line-height: 40px;
-    border-radius: 50%;
-    font-size: 20px;
-    position: relative;
-}
 
 .digit-bar .arrow {
     position: absolute;
@@ -181,32 +168,6 @@ button:hover {
     100% { transform: translateX(0); }
 }
 
-/* Title style */
-.title {
-    font-size: 30px; /* Adjust size as needed */
-    text-align: center;
-    margin: 20px 0;
-    animation: zoomIn 1s ease-in-out; /* Zoom in on load */
-}
-
-/* Add shake animation */
-.title.shake {
-    animation: shake 5s ease-in-out;
-} 
-
-
-/* Matches and Differs */
-.title.Matches and Differs {
-    font-size: 2rem; /* Adjust size as needed */
-    text-align: center;
-    margin: 20px 0;
-    animation: zoomIn 1s ease-in-out; /* Zoom in on load */
-}
-
-/* Add shake animation */
-.title.Matches and Differs.shake {
-    animation: shake 5s ease-in-out;
-}
 
 .predictions-container {
     text-align: center;
@@ -231,7 +192,7 @@ h2 {
     padding: 25px;
     text-align: center;
     font-size: 15px;
-    color: white;
+    color: #ffffff;
 }
 
 .number-display {
