@@ -32,8 +32,8 @@ const GlobalLoading = () => {
 
     useEffect(() => {
         // Reduce animation intensity on mobile for better performance
-        const dataPointCount = isMobile ? 15 : 25;
-        const binaryRainCount = isMobile ? 15 : 30;
+        const dataPointCount = isMobile ? 8 : 25;
+        const binaryRainCount = isMobile ? 10 : 30;
 
         // Update market data interval
         const marketInterval = setInterval(() => {
@@ -92,7 +92,7 @@ const GlobalLoading = () => {
 
             {/* Floating data points - reduced on mobile */}
             <div className='data-points-container'>
-                {Array.from({ length: isMobile ? 15 : 25 }).map((_, i) => (
+                {Array.from({ length: isMobile ? 8 : 25 }).map((_, i) => (
                     <motion.div
                         key={i}
                         className='data-point'
@@ -116,7 +116,7 @@ const GlobalLoading = () => {
 
             {/* Binary rain effect - reduced on mobile */}
             <div className='binary-rain'>
-                {Array.from({ length: isMobile ? 15 : 30 }).map((_, i) => (
+                {Array.from({ length: isMobile ? 10 : 30 }).map((_, i) => (
                     <motion.div
                         key={i}
                         className='binary-digit'
@@ -196,7 +196,7 @@ const GlobalLoading = () => {
 
                             <svg
                                 width='100%'
-                                height={isMobile ? '120' : '160'}
+                                height={isMobile ? '80' : '160'}
                                 viewBox='0 0 1000 100'
                                 className='chart-svg'
                             >
@@ -214,7 +214,7 @@ const GlobalLoading = () => {
                                 <motion.path
                                     d={chartPath}
                                     stroke='url(#chartGradient)'
-                                    strokeWidth='3'
+                                    strokeWidth='2'
                                     fill='none'
                                     filter='url(#glow)'
                                     initial={{ pathLength: 0 }}
@@ -226,7 +226,7 @@ const GlobalLoading = () => {
                                         <motion.circle
                                             cx='0'
                                             cy='50'
-                                            r={isMobile ? '4' : '6'}
+                                            r={isMobile ? '3' : '6'}
                                             fill='url(#chartGradient)'
                                             initial={{ x: 0 }}
                                             animate={{
@@ -247,22 +247,22 @@ const GlobalLoading = () => {
 
                             {/* Candlestick animation */}
                             <div className='candlestick-animation'>
-                                {Array.from({ length: isMobile ? 10 : 15 }).map((_, i) => (
+                                {Array.from({ length: isMobile ? 6 : 15 }).map((_, i) => (
                                     <motion.div
                                         key={i}
                                         className='candlestick'
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{
-                                            height: Math.random() * 30 + 10,
+                                            height: Math.random() * 20 + 5,
                                             opacity: 1,
-                                            y: Math.random() * 40 - 20,
+                                            y: Math.random() * 20 - 10,
                                         }}
                                         transition={{
                                             delay: i * 0.1,
                                             duration: 0.5,
                                             repeat: Infinity,
                                             repeatType: 'reverse',
-                                            repeatDelay: (isMobile ? 10 : 15) * 0.1,
+                                            repeatDelay: (isMobile ? 6 : 15) * 0.1,
                                         }}
                                     >
                                         <div className='wick' />
@@ -397,7 +397,7 @@ const GlobalLoading = () => {
                                     x: 0,
                                     opacity: 1,
                                     rotate: 0,
-                                    y: [0, -15, 0],
+                                    y: [0, -10, 0],
                                 }}
                                 transition={{
                                     delay: 0.8 + i * 0.2,
@@ -468,7 +468,7 @@ const GlobalLoading = () => {
 
             {/* Connection nodes animation */}
             <div className='connection-nodes'>
-                {Array.from({ length: isMobile ? 6 : 8 }).map((_, i) => (
+                {Array.from({ length: isMobile ? 4 : 8 }).map((_, i) => (
                     <motion.div
                         key={i}
                         className='node'

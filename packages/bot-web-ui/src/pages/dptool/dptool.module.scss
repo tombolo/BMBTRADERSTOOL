@@ -25,6 +25,10 @@
   position: relative;
   overflow-y: auto;
 
+  @media (min-width: 1200px) {
+    height: 100vh;
+  }
+
   /* Hacking Animation Background */
   .hackingAnimation {
     position: absolute;
