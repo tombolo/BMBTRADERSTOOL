@@ -40,8 +40,8 @@ const TradersHubLoggedOut = observer(() => {
                 >
                     <GetStartedTradingBanner />
                     <Text size={isDesktop ? 'm' : 'xsm'} weight='bold' color='prominent'>
-                       <a href='https://smarttraderstool.com/'>
-                           <Localize i18n_default_text="Traders Tool" />
+                       <a href=''>
+                           <Localize i18n_default_text="BRAM FX" />
                         </a>
                     </Text>
                     {isDesktop ? (

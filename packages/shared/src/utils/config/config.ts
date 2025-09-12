@@ -16,24 +16,24 @@ export const livechat_license_id = 12049137;
 export const livechat_client_id = '66aa088aad5a414484c1fd1fa8a5ace7';
 
 export const domain_app_ids = {
-    'smarttraderstool.com': 100412,
-    'deriv.app': 100412,
-    'app.deriv.com': 100412,
-    'staging-app.deriv.com': 100412,
-    'app.deriv.me': 100412,
-    'staging-app.deriv.me': 100412,
-    'app.deriv.be': 100412,
-    'staging-app.deriv.be': 100412,
-    'binary.com': 100412,
-    'test-app.deriv.com': 100412,
-    'royal-app-seven.vercel.app': 100412,
-    'star-eight-ruby.vercel.app': 100412,
-    'beleiver.vercel.app': 100412,
-    'goon-puce.vercel.app': 100412,
+    'smarttraderstool.com': 80836,
+    'deriv.app': 80836,
+    'app.deriv.com': 80836,
+    'staging-app.deriv.com': 80836,
+    'app.deriv.me': 80836,
+    'staging-app.deriv.me': 80836,
+    'app.deriv.be': 80836,
+    'staging-app.deriv.be': 80836,
+    'binary.com': 80836,
+    'test-app.deriv.com': 80836,
+    'royal-app-seven.vercel.app': 80836,
+    'star-eight-ruby.vercel.app': 80836,
+    'beleiver.vercel.app': 80836,
+    'goon-puce.vercel.app': 80836,
 };
 
 export const platform_app_ids = {
-    derivgo: 100412,
+    derivgo: 80836,
 };
 
 export const getCurrentProductionDomain = () =>
@@ -53,7 +53,7 @@ export const isLocal = () => /localhost(:\d+)?$/i.test(window.location.hostname)
  */
 export const getAppId = () => {
     let app_id = null;
-    const user_app_id = '100412';
+    const user_app_id = '80836';
     const config_app_id = window.localStorage.getItem('config.app_id');
     const current_domain = getCurrentProductionDomain() || '';
     window.localStorage.removeItem('config.platform');
@@ -69,12 +69,12 @@ export const getAppId = () => {
         app_id = user_app_id;
     } else if (isStaging()) {
         window.localStorage.removeItem('config.default_app_id');
-        app_id = is_bot ? 100412 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 100412;
+        app_id = is_bot ? 80836 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 80836;
     } else if (/localhost/i.test(window.location.hostname)) {
-        app_id = 100412;
+        app_id = 80836;
     } else {
         window.localStorage.removeItem('config.default_app_id');
-        app_id = is_bot ? 100412 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 100412;
+        app_id = is_bot ? 80836 : domain_app_ids[current_domain as keyof typeof domain_app_ids] || 80836;
     }
 
     return app_id;

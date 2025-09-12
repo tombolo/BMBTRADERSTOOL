@@ -1,5 +1,5 @@
 import React from 'react';
-import LOGO from '../../../Logo/LOGO9.png';
+import LOGO from '../../../Logo/BRAM.png';
 
 const DerivShortLogo = () => {
     return (

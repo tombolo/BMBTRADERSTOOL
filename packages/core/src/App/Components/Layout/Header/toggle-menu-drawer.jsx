@@ -369,7 +369,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
 
                                 <MobileDrawer.Item>
                                     <a 
-                                        href='https://smarttraderstool.com/'
+                                        href=''
                                         className='dc-menu-link'
                                         onClick={toggleDrawer}
                                     >
@@ -378,7 +378,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
                                             className='dc-menu-link__icon' 
                                         />
                                         <span className='dc-menu-link__text'>
-                                            {localize('Traders Tool')}
+                                            {localize('BRAM FX')}
                                         </span>
                                     </a>
                                 </MobileDrawer.Item>
