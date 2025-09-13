@@ -1,38 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import styles from './dptool.module.scss';
 
 const AiPage: React.FC = () => {
-    const iframeRef = useRef<HTMLIFrameElement>(null);
-    const [iframeHeight, setIframeHeight] = useState('600px'); // Default height
-
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            // Add origin check for security
-            if (event.origin !== window.location.origin) return;
-
-            if (event.data?.iframeHeight) {
-                setIframeHeight(`${event.data.iframeHeight}px`);
-            }
-        };
-
-        window.addEventListener('message', handleMessage);
-        return () => window.removeEventListener('message', handleMessage);
-    }, []);
-
     return (
-        <div style={{ width: '100%' }}>
+        <div className={styles.container}>
             <iframe
-                ref={iframeRef}
-                src="/anls/index.html"
-                title="dptool"
-                style={{
-                    width: '100%',
-                    height: iframeHeight,
-                    border: 'none',
-                }}
-                loading="lazy" // Added for better performance
+                src="https://serene-marzipan-19f3d1.netlify.app/"
+                title="AiPage"
+                className={styles.iframe}
+                loading="lazy"
             />
         </div>
     );
 };
 
-export default AiPage; // Fixed the exported component name to match the declared one
+export default AiPage;
