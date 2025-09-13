@@ -57,7 +57,7 @@ const AppWrapper = observer(() => {
     const Dptool = lazy(() => import('../dptool/dptool'));
 
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'botlist', 'finesttool', 'copytrading','dptool', 'risk_management_calculator', 'strategy'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'botlist', 'finesttool', 'copytrading','dptool'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -256,36 +256,6 @@ const AppWrapper = observer(() => {
                             <Dptool />
                         </div>
 
-
-
-
-                        <div
-                            label={
-                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
-                                    <FaShieldAlt size={14} />
-                                    Risk Management
-                                </span>
-                            }
-                            id='id-risk-management-calculator'
-                        >
-                            <div className='tutorials-wrapper'>
-                                <RiskManagementCalculator />
-                            </div>
-                        </div>
-
-                        <div
-                            label={
-                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
-                                    <FaLightbulb size={14} />
-                                    Strategy
-                                </span>
-                            }
-                            id='id-strategy'
-                        >
-                            <div className='tutorials-wrapper'>
-                                <Strategy />
-                            </div>
-                        </div>
 
 
 
