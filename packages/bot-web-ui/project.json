@@ -1,0 +1,29 @@
+{
+    "name": "bot-web-ui",
+    "projectType": "application",
+    "sourceRoot": "packages/bot-web-ui/src",
+    "targets": {
+        "build": {
+            "executor": "@nrwl/web:build",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "options": {
+                "outputPath": "dist/packages/bot-web-ui",
+                "index": "packages/bot-web-ui/src/index.html",
+                "main": "packages/bot-web-ui/src/main.tsx",
+                "polyfills": "packages/bot-web-ui/src/polyfills.ts",
+                "tsConfig": "packages/bot-web-ui/tsconfig.app.json",
+                "assets": [
+                    "packages/bot-web-ui/src/favicon.ico",
+                    "packages/bot-web-ui/src/assets",
+                    {
+                        "input": "packages/bot-web-ui/public",
+                        "glob": "**/*",
+                        "output": "."
+                    }
+                ]
+            }
+        }
+    }
+}
