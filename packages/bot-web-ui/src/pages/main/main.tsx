@@ -24,6 +24,7 @@ import RiskManagementCalculator from '../riskManagementCalculator';
 import Strategy from '../strategy';
 import Copytrading from '../copytrading';
 import Botlist from '../botlist';
+import Smartedge from '../smartedge';
 import { FaChartBar, FaChartLine, FaPuzzlePiece, FaChessKnight, FaUsers, FaShieldAlt, FaRobot, FaTachometerAlt, FaExchangeAlt, FaCopy, FaLightbulb } from 'react-icons/fa';
 import { MdSchema, MdGridOn } from 'react-icons/md';
 
@@ -57,7 +58,7 @@ const AppWrapper = observer(() => {
     const Dptool = lazy(() => import('../dptool/dptool'));
 
 
-    const hash = ['dashboard', 'bot_builder', 'chart', 'botlist', 'finesttool', 'copytrading','dptool'];
+    const hash = ['dashboard', 'bot_builder', 'chart', 'botlist', 'finesttool', 'copytrading', 'dptool', 'smartedge'];
 
     let tab_value: number | string = active_tab;
     const GetHashedValue = (tab: number) => {
@@ -254,6 +255,18 @@ const AppWrapper = observer(() => {
                             id='id-dp-tool'
                         >
                             <Dptool />
+                        </div>
+
+                        <div
+                            label={
+                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
+                                    <MdGridOn size={14} />
+                                    Smart Edge
+                                </span>
+                            }
+                            id='id-smart-edge'
+                        >
+                            <Smartedge />
                         </div>
 
 
