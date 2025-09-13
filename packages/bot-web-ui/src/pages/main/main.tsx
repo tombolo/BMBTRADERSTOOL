@@ -271,8 +271,6 @@ const AppWrapper = observer(() => {
 
 
 
-
-
                     </Tabs>
                 </div>
             </div>
