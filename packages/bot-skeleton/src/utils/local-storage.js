@@ -3,8 +3,8 @@ import localForage from 'localforage';
 import DBotStore from '../scratch/dbot-store';
 import { save_types } from '../constants/save-type';
 import AutoRobot from './bots/BRAMEVENODDPRINTER.xml';
-import OverUnderBot from './bots/Bramfxoverandunderbotwithentrypoint.xml';
-import Derivminer from './bots/Bramover2withrecoveryofover3.xml';
+import OverUnderBot from './bots/DoubleOverWithanalysis.xml';
+import Derivminer from './bots/dollar_flipper.xml';
 import Derivflipper from './bots/BRAMSPEEDBOT.xml';
 import Focus from './bots/BRAMSTAKELISTPRINTER.xml';
 import Printer from './bots/BRAMTHEDOLLARPRINTER.xml';
@@ -20,7 +20,7 @@ const STATIC_BOTS = {
     },
     over_under: {
         id: 'over_under_bot_by_GLE',
-        name: 'Bram fx over and under bot with entry point',
+        name: 'DoubleOverWithanalysis',
         xml: OverUnderBot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
