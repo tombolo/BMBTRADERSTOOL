@@ -2,46 +2,54 @@ import LZString from 'lz-string';
 import localForage from 'localforage';
 import DBotStore from '../scratch/dbot-store';
 import { save_types } from '../constants/save-type';
-import AutoRobot from './bots/auto_robot_by_GLE1.xml';
-import OverUnderBot from './bots/over_under_bot_by_GLE.xml';
-import Derivminer from './bots/deriv_miner_pro.xml';
-import Derivflipper from './bots/dollar_flipper.xml';
-import Focus from './bots/Autorobots.xml';
+import AutoRobot from './bots/BRAMEVENODDPRINTER.xml';
+import OverUnderBot from './bots/Bramfxoverandunderbotwithentrypoint.xml';
+import Derivminer from './bots/Bramover2withrecoveryofover3.xml';
+import Derivflipper from './bots/BRAMSPEEDBOT.xml';
+import Focus from './bots/BRAMSTAKELISTPRINTER.xml';
+import Printer from './bots/BRAMTHEDOLLARPRINTER.xml';
 
 // Static bot configurations
 const STATIC_BOTS = {
     auto_robot: {
-        id: 'auto_robot_by_GLE1',
-        name: 'Auto robot',
+        id: 'auto_robot',
+        name: 'BRAM EVEN ODD PRINTER',
         xml: AutoRobot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     over_under: {
         id: 'over_under_bot_by_GLE',
-        name: 'Over&under bot',
+        name: 'Bram fx over and under bot with entry point',
         xml: OverUnderBot,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     deriv_miner_pro: {
         id: 'deriv_miner_pro',
-        name: 'Deriv Miner Pro',
+        name: 'Bram over 2 with recovery of over 3',
         xml: Derivminer,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     dollar_flipper: {
         id: 'dollar_flipper',
-        name: 'Deriv Flipper',
+        name: 'BRAM  SPEED BOT',
         xml: Derivflipper,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
     focus: {
         id: 'dollar_flipper',
-        name: 'Deriv Gain',
+        name: 'BRAM  STAKE LIST PRINTER',
         xml: Focus,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
+    printer: {
+        id: 'printer',
+        name: 'BRAM THE DOLLAR PRINTER',
+        xml: Printer,
         timestamp: Date.now(),
         save_type: save_types.LOCAL,
     },
