@@ -1,13 +1,517 @@
-.container {
-  position: relative;
-  width: 100%;
-  height: 80vh;
-  overflow-y: auto;
+// Variables
+$primary-green: #10B981;
+$primary-green-dark: #059669;
+$primary-red: #EF4444;
+$primary-red-dark: #DC2626;
+$black: #000000;
+$dark-gray: #1F2937;
+$medium-gray: #374151;
+$light-gray: #E5E7EB;
+$white: #FFFFFF;
+
+// Animations
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
-.iframe {
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
+  50% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); }
+}
+
+// Base Styles
+.copytradingContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, $dark-gray 0%, $black 100%);
+  color: $light-gray;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+// Animated Background
+.animatedBg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.circle1, .circle2, .circle3 {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.03;
+  background: linear-gradient(135deg, $primary-green, $primary-red);
+}
+
+.circle1 {
+  width: 200px;
+  height: 200px;
+  top: -50px;
+  left: -50px;
+  animation: float 12s ease-in-out infinite;
+}
+
+.circle2 {
+  width: 300px;
+  height: 300px;
+  bottom: -100px;
+  right: -100px;
+  animation: float 15s ease-in-out infinite reverse;
+}
+
+.circle3 {
+  width: 150px;
+  height: 150px;
+  top: 40%;
+  left: 80%;
+  animation: float 10s ease-in-out infinite;
+}
+
+// Header
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 0;
+  animation: fadeIn 0.6s ease-out;
+  border-bottom: 1px solid $medium-gray;
+  flex-shrink: 0;
+}
+
+.logoSection {
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    
+    span {
+      color: $primary-green;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
+.userInfo {
+  .userAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: $white;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    font-size: 0.8rem;
+  }
+}
+
+// Main Dashboard
+.dashboardMain {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.2rem;
+  padding: 1.5rem 0;
+  flex: 1;
+  overflow-y: auto;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    
+    .accountSummaryCard {
+      grid-column: 1 / -1;
+    }
+    
+    .statsPreview {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+// Sharp Card
+.sharpCard {
+  background: $dark-gray;
+  border: 1px solid $medium-gray;
+  border-radius: 8px;
+  padding: 1.2rem;
+  animation: fadeIn 0.5s ease-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Account Summary
+.accountSummaryCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  border-left: 3px solid $primary-green;
+  
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+}
+
+.accountInfo {
+  .accountId {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    color: $white;
+  }
+  
+  .accountName {
+    color: $light-gray;
+    font-size: 0.8rem;
+  }
+}
+
+.accountBalance {
+  text-align: right;
+  
+  @media (max-width: 640px) {
+    text-align: left;
+  }
+  
+  .balanceLabel {
+    font-size: 0.75rem;
+    color: $light-gray;
+    margin-bottom: 0.2rem;
+  }
+  
+  .balanceAmount {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $primary-green;
+  }
+}
+
+.accountStatus {
+  position: absolute;
+  bottom: 1rem;
+  left: 1.2rem;
+  
+  @media (max-width: 640px) {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin-top: 0.5rem;
+  }
+  
+  .statusIndicator {
+    padding: 0.3rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: $medium-gray;
+    color: $light-gray;
+    
+    &.active {
+      background: rgba(16, 185, 129, 0.15);
+      color: $primary-green;
+      animation: glow 2s ease-in-out infinite;
+    }
+  }
+}
+
+.loadingPulse {
+  width: 100%;
+  
+  .pulseLine {
+    height: 0.9rem;
+    background: $medium-gray;
+    border-radius: 4px;
+    margin-bottom: 0.4rem;
+    animation: pulse 1.5s ease-in-out infinite;
+    
+    &.short {
+      width: 50%;
+    }
+  }
+}
+
+// Trading Controls
+.tradingControls {
+  border-left: 3px solid $primary-red;
+  
+  .sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $white;
+  }
+}
+
+.inputGroup {
+  margin-bottom: 1.2rem;
+  
+  label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: $light-gray;
+  }
+}
+
+.modernInput {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid $medium-gray;
+  background: $black;
+  color: $white;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-green;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  &:invalid {
+    border-color: $primary-red;
+  }
+}
+
+.tradingButton {
+  position: relative;
+  width: 100%;
+  padding: 0.9rem 1.2rem;
   border: none;
-  display: block;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.startTrading {
+  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+  color: $white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  }
+}
+
+.stopTrading {
+  background: linear-gradient(135deg, $primary-red, $primary-red-dark);
+  color: $white;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  }
+}
+
+.buttonEffect {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: rotate(30deg);
+  transition: all 0.4s ease;
+}
+
+.tradingButton:hover:not(:disabled) .buttonEffect {
+  animation: slideIn 0.8s ease;
+}
+
+.apiInfo {
+  margin-top: 0.8rem;
+  text-align: center;
+  
+  small {
+    color: $medium-gray;
+    font-size: 0.7rem;
+  }
+}
+
+// Status Message
+.statusMessage {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  z-index: 1000;
+  
+  &.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+.messageContent {
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  background: $dark-gray;
+  backdrop-filter: blur(10px);
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 1px solid $medium-gray;
+  font-size: 0.85rem;
+}
+
+// Stats Preview
+.statsPreview {
+  border-left: 3px solid $primary-green;
+  
+  .statsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.statItem {
+  text-align: center;
+  padding: 1rem 0.8rem;
+  background: $medium-gray;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  border: 1px solid $dark-gray;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.statIcon {
+  font-size: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.statValue {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  color: $primary-green;
+}
+
+.statLabel {
+  font-size: 0.75rem;
+  color: $light-gray;
+  font-weight: 500;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .dashboardHeader {
+    padding: 1rem 0;
+  }
+  
+  .dashboardMain {
+    padding: 1rem 0;
+    gap: 1rem;
+  }
+  
+  .sharpCard {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 0.8rem;
+  }
+  
+  .logo {
+    font-size: 1rem !important;
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .userAvatar {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 0.7rem !important;
+  }
 }
