@@ -1,11 +1,15 @@
 // Variables
 $primary-green: #10B981;
 $primary-green-dark: #059669;
+$primary-blue: #3B82F6;
+$primary-blue-dark: #2563EB;
 $primary-red: #EF4444;
 $primary-red-dark: #DC2626;
+$primary-gold: #F59E0B;
+$primary-gold-dark: #D97706;
 $black: #000000;
-$dark-gray: #1F2937;
-$medium-gray: #374151;
+$dark-gray: #111827;
+$medium-gray: #1F2937;
 $light-gray: #E5E7EB;
 $white: #FFFFFF;
 
@@ -35,13 +39,21 @@ $white: #FFFFFF;
   50% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.8); }
 }
 
+@keyframes borderGlow {
+  0%, 100% { border-color: $primary-green; }
+  25% { border-color: $primary-blue; }
+  50% { border-color: $primary-gold; }
+  75% { border-color: $primary-red; }
+}
+
 // Base Styles
 .copytradingContainer {
-  min-height: 100vh;
+  width: 100%;
+  height: 100vh;
   background: linear-gradient(135deg, $dark-gray 0%, $black 100%);
   color: $light-gray;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 14px;
   line-height: 1.4;
@@ -73,7 +85,6 @@ $white: #FFFFFF;
   position: absolute;
   border-radius: 50%;
   opacity: 0.03;
-  background: linear-gradient(135deg, $primary-green, $primary-red);
 }
 
 .circle1 {
@@ -81,6 +92,7 @@ $white: #FFFFFF;
   height: 200px;
   top: -50px;
   left: -50px;
+  background: linear-gradient(135deg, $primary-green, $primary-blue);
   animation: float 12s ease-in-out infinite;
 }
 
@@ -89,6 +101,7 @@ $white: #FFFFFF;
   height: 300px;
   bottom: -100px;
   right: -100px;
+  background: linear-gradient(135deg, $primary-red, $primary-gold);
   animation: float 15s ease-in-out infinite reverse;
 }
 
@@ -97,6 +110,7 @@ $white: #FFFFFF;
   height: 150px;
   top: 40%;
   left: 80%;
+  background: linear-gradient(135deg, $primary-blue, $primary-green);
   animation: float 10s ease-in-out infinite;
 }
 
@@ -107,7 +121,7 @@ $white: #FFFFFF;
   align-items: center;
   padding: 1.2rem 0;
   animation: fadeIn 0.6s ease-out;
-  border-bottom: 1px solid $medium-gray;
+  border-bottom: 2px solid $medium-gray;
   flex-shrink: 0;
 }
 
@@ -132,7 +146,7 @@ $white: #FFFFFF;
     width: 40px;
     height: 40px;
     border-radius: 8px;
-    background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+    background: linear-gradient(135deg, $primary-blue, $primary-green);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,6 +154,7 @@ $white: #FFFFFF;
     color: $white;
     box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
     font-size: 0.8rem;
+    border: 2px solid $primary-gold;
   }
 }
 
@@ -168,8 +183,8 @@ $white: #FFFFFF;
 // Sharp Card
 .sharpCard {
   background: $dark-gray;
-  border: 1px solid $medium-gray;
-  border-radius: 8px;
+  border: 2px solid $medium-gray;
+  border-radius: 4px;
   padding: 1.2rem;
   animation: fadeIn 0.5s ease-out;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -178,6 +193,7 @@ $white: #FFFFFF;
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    border-color: $primary-blue;
   }
 }
 
@@ -187,7 +203,8 @@ $white: #FFFFFF;
   justify-content: space-between;
   align-items: center;
   position: relative;
-  border-left: 3px solid $primary-green;
+  border-left: 4px solid $primary-green;
+  animation: borderGlow 8s infinite;
   
   @media (max-width: 640px) {
     flex-direction: column;
@@ -226,7 +243,8 @@ $white: #FFFFFF;
   .balanceAmount {
     font-size: 1.2rem;
     font-weight: 700;
-    color: $primary-green;
+    color: $primary-gold;
+    text-shadow: 0 1px 2px rgba(245, 158, 11, 0.3);
   }
 }
 
@@ -244,15 +262,17 @@ $white: #FFFFFF;
   
   .statusIndicator {
     padding: 0.3rem 0.8rem;
-    border-radius: 6px;
+    border-radius: 4px;
     font-size: 0.7rem;
     font-weight: 600;
     background: $medium-gray;
     color: $light-gray;
+    border: 1px solid $medium-gray;
     
     &.active {
       background: rgba(16, 185, 129, 0.15);
       color: $primary-green;
+      border-color: $primary-green;
       animation: glow 2s ease-in-out infinite;
     }
   }
@@ -264,7 +284,7 @@ $white: #FFFFFF;
   .pulseLine {
     height: 0.9rem;
     background: $medium-gray;
-    border-radius: 4px;
+    border-radius: 2px;
     margin-bottom: 0.4rem;
     animation: pulse 1.5s ease-in-out infinite;
     
@@ -276,7 +296,8 @@ $white: #FFFFFF;
 
 // Trading Controls
 .tradingControls {
-  border-left: 3px solid $primary-red;
+  border-left: 4px solid $primary-red;
+  animation: borderGlow 8s infinite;
   
   .sectionTitle {
     display: flex;
@@ -301,11 +322,22 @@ $white: #FFFFFF;
   }
 }
 
+.inputContainer {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid $medium-gray;
+  transition: border-color 0.2s ease;
+  
+  &:focus-within {
+    border-color: $primary-blue;
+  }
+}
+
 .modernInput {
   width: 100%;
   padding: 0.7rem 0.9rem;
-  border-radius: 6px;
-  border: 1px solid $medium-gray;
+  border: none;
   background: $black;
   color: $white;
   font-size: 0.85rem;
@@ -313,8 +345,6 @@ $white: #FFFFFF;
   
   &:focus {
     outline: none;
-    border-color: $primary-green;
-    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
   }
   
   &:disabled {
@@ -323,7 +353,19 @@ $white: #FFFFFF;
   }
   
   &:invalid {
-    border-color: $primary-red;
+    background: rgba(239, 68, 68, 0.1);
+  }
+}
+
+.buttonContainer {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid $medium-gray;
+  transition: border-color 0.2s ease;
+  
+  &:hover {
+    border-color: $primary-green;
   }
 }
 
@@ -332,7 +374,6 @@ $white: #FFFFFF;
   width: 100%;
   padding: 0.9rem 1.2rem;
   border: none;
-  border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -350,24 +391,20 @@ $white: #FFFFFF;
 }
 
 .startTrading {
-  background: linear-gradient(135deg, $primary-green, $primary-green-dark);
+  background: linear-gradient(135deg, $primary-green, $primary-blue);
   color: $white;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
   
   &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+    filter: brightness(1.1);
   }
 }
 
 .stopTrading {
-  background: linear-gradient(135deg, $primary-red, $primary-red-dark);
+  background: linear-gradient(135deg, $primary-red, $primary-gold);
   color: $white;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
   
   &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    filter: brightness(1.1);
   }
 }
 
@@ -419,7 +456,7 @@ $white: #FFFFFF;
 
 .messageContent {
   padding: 0.6rem 1.2rem;
-  border-radius: 6px;
+  border-radius: 4px;
   background: $dark-gray;
   backdrop-filter: blur(10px);
   font-weight: 600;
@@ -428,13 +465,14 @@ $white: #FFFFFF;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  border: 1px solid $medium-gray;
+  border: 2px solid $medium-gray;
   font-size: 0.85rem;
 }
 
 // Stats Preview
 .statsPreview {
-  border-left: 3px solid $primary-green;
+  border-left: 4px solid $primary-gold;
+  animation: borderGlow 8s infinite;
   
   .statsGrid {
     display: grid;
@@ -451,13 +489,25 @@ $white: #FFFFFF;
   text-align: center;
   padding: 1rem 0.8rem;
   background: $medium-gray;
-  border-radius: 6px;
+  border-radius: 4px;
   transition: all 0.2s ease;
-  border: 1px solid $dark-gray;
+  border: 2px solid $medium-gray;
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-color: $primary-blue;
+  }
+  
+  &:nth-child(1):hover {
+    border-color: $primary-green;
+  }
+  
+  &:nth-child(2):hover {
+    border-color: $primary-gold;
+  }
+  
+  &:nth-child(3):hover {
+    border-color: $primary-red;
   }
 }
 
@@ -470,7 +520,18 @@ $white: #FFFFFF;
   font-size: 1.1rem;
   font-weight: 700;
   margin-bottom: 0.2rem;
+}
+
+.statItem:nth-child(1) .statValue {
   color: $primary-green;
+}
+
+.statItem:nth-child(2) .statValue {
+  color: $primary-gold;
+}
+
+.statItem:nth-child(3) .statValue {
+  color: $primary-blue;
 }
 
 .statLabel {

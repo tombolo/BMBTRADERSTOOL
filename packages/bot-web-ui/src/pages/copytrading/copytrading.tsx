@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import styles from "./CopyTradingPage.module.scss";
+import styles from "./copytrading.module.scss";
 
 export default function CopyTradingPage() {
-    const [loginId, setLoginId] = useState<string>("---");
-    const [balance, setBalance] = useState<string>("0.00 USD");
-    const [fullName, setFullName] = useState<string>("---");
+    const [loginId, setLoginId] = useState<string | null>(null);
+    const [name, setName] = useState<string | null>(null);
+    const [balance, setBalance] = useState<string | null>(null);
+    const [currency, setCurrency] = useState<string | null>(null);
+    const [isVirtual, setIsVirtual] = useState<boolean>(false);
     const [traderToken, setTraderToken] = useState<string>("");
     const [isCopyTrading, setIsCopyTrading] = useState<boolean>(false);
     const [statusMessage, setStatusMessage] = useState<string>("");
@@ -27,6 +29,13 @@ export default function CopyTradingPage() {
 
         setActiveToken(token);
         initializeWebSocket(token);
+
+        // Fetch user info from localStorage
+        setLoginId(localStorage.getItem('active_loginid'));
+        setName(localStorage.getItem('name'));
+        setBalance(localStorage.getItem('balance'));
+        setCurrency(localStorage.getItem('currency'));
+        setIsVirtual(localStorage.getItem('is_virtual') === 'true');
 
         return () => {
             if (ws.current && ws.current.readyState === WebSocket.OPEN) {
@@ -73,7 +82,7 @@ export default function CopyTradingPage() {
 
         if (data.msg_type === "authorize") {
             setLoginId(data.authorize.loginid);
-            setFullName(data.authorize.fullname || "---");
+            setName(data.authorize.fullname || "---");
             getAccountBalance();
         }
 
@@ -218,12 +227,12 @@ export default function CopyTradingPage() {
                                 <path d="M16 2C8.268 2 2 8.268 2 16s6.268 14 14 14 14-6.268 14-14S23.732 2 16 2z" fill="#10B981" />
                                 <path d="M21.5 13.5l-6 6-3-3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
-                            <span>TradeSync by tombolo</span>
+                            <span>TradeSync Pro</span>
                         </div>
                     </div>
                     <div className={styles.userInfo}>
                         <div className={styles.userAvatar}>
-                            {fullName.split(' ').map(n => n[0]).join('').toUpperCase()}
+                            {name ? name.split(' ').map(n => n[0]).join('').toUpperCase() : '---'}
                         </div>
                     </div>
                 </header>
@@ -241,11 +250,11 @@ export default function CopyTradingPage() {
                             <>
                                 <div className={styles.accountInfo}>
                                     <div className={styles.accountId}>{loginId}</div>
-                                    <div className={styles.accountName}>{fullName}</div>
+                                    <div className={styles.accountName}>{name || "---"}</div>
                                 </div>
                                 <div className={styles.accountBalance}>
                                     <div className={styles.balanceLabel}>Available Balance</div>
-                                    <div className={styles.balanceAmount}>{balance}</div>
+                                    <div className={styles.balanceAmount}>{balance} {currency}</div>
                                 </div>
                                 <div className={styles.accountStatus}>
                                     <span className={`${styles.statusIndicator} ${isCopyTrading ? styles.active : ''}`}>
@@ -265,32 +274,36 @@ export default function CopyTradingPage() {
 
                         <div className={styles.inputGroup}>
                             <label htmlFor="traderToken">Trader API Token (15-32 characters)</label>
-                            <input
-                                id="traderToken"
-                                type="text"
-                                className={styles.modernInput}
-                                placeholder="Enter trader's API token"
-                                value={traderToken}
-                                onChange={(e) => setTraderToken(e.target.value)}
-                                disabled={isCopyTrading}
-                                pattern="[\w\s-]{15,32}"
-                                title="Token must be 15-32 characters containing letters, numbers, spaces, or hyphens"
-                            />
+                            <div className={styles.inputContainer}>
+                                <input
+                                    id="traderToken"
+                                    type="text"
+                                    className={styles.modernInput}
+                                    placeholder="Enter trader's API token"
+                                    value={traderToken}
+                                    onChange={(e) => setTraderToken(e.target.value)}
+                                    disabled={isCopyTrading}
+                                    pattern="[\w\s-]{15,32}"
+                                    title="Token must be 15-32 characters containing letters, numbers, spaces, or hyphens"
+                                />
+                            </div>
                         </div>
 
-                        <button
-                            className={`${styles.tradingButton} ${isCopyTrading ? styles.stopTrading : styles.startTrading}`}
-                            onClick={handleCopyTrading}
-                            disabled={isLoading}
-                        >
-                            <span className={styles.buttonIcon}>
-                                {isCopyTrading ? '🛑' : '🚀'}
-                            </span>
-                            <span className={styles.buttonText}>
-                                {isCopyTrading ? 'Stop Copy Trading' : 'Start Copy Trading'}
-                            </span>
-                            <span className={styles.buttonEffect}></span>
-                        </button>
+                        <div className={styles.buttonContainer}>
+                            <button
+                                className={`${styles.tradingButton} ${isCopyTrading ? styles.stopTrading : styles.startTrading}`}
+                                onClick={handleCopyTrading}
+                                disabled={isLoading}
+                            >
+                                <span className={styles.buttonIcon}>
+                                    {isCopyTrading ? '🛑' : '🚀'}
+                                </span>
+                                <span className={styles.buttonText}>
+                                    {isCopyTrading ? 'Stop Copy Trading' : 'Start Copy Trading'}
+                                </span>
+                                <span className={styles.buttonEffect}></span>
+                            </button>
+                        </div>
 
                         <div className={styles.apiInfo}>
                             <small>API: copy_start | copy_stop</small>
