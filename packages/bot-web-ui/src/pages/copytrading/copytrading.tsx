@@ -7,7 +7,8 @@ import { useDevice } from '@deriv-com/ui';
 import AccountInfoWrapper from '../../../../core/src/App/Components/Layout/Header/account-info-wrapper';
 import AccountInfoIcon from '../../../../core/src/App/Components/Layout/Header/account-info-icon';
 import DisplayAccountType from '../../../../core/src/App/Components/Layout/Header/display-account-type';
-import './CopyTradingPage.scss';
+import './CopyTradingPage.module.scss';
+
 
 const Copytrading: React.FC = () => {
     const [balance, setBalance] = useState<string>('0.00');
@@ -16,7 +17,6 @@ const Copytrading: React.FC = () => {
     const [accountType, setAccountType] = useState<string>('Real');
 
     const { isDesktop } = useDevice();
-
     useEffect(() => {
         // Example: get values from localStorage (or API call later)
         const stored_balance = localStorage.getItem('balance');
