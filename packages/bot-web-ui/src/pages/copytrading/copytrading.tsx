@@ -273,16 +273,6 @@ export default function CopyTradingPage() {
                             loginid={loginId}
                             balance={balance}
                             currency={currency}
-                            is_virtual={isVirtual}
-                            account_type={accountType}
-                            is_eu={isEU}
-                            is_mobile={false}
-                            is_disabled={isLoading}
-                            is_dialog_on={isDialogOn}
-                            toggleDialog={toggleDialog}
-                            disableApp={disableApp}
-                            enableApp={enableApp}
-                            acc_switcher_disabled_message={isLoading ? "Loading accounts..." : ""}
                         />
                     </div>
                 </header>
@@ -304,19 +294,6 @@ export default function CopyTradingPage() {
                                 <span className={styles.detailLabel}>Balance:</span>
                                 <span className={styles.detailValue}>
                                     {balance ? `${balance} ${currency}` : "---"}
-                                </span>
-                            </div>
-                            <div className={styles.accountDetailRow}>
-                                <span className={styles.detailLabel}>Account Type:</span>
-                                <span className={styles.detailValue}>
-                                    {accountType ? accountType : "---"}
-                                    {isVirtual ? " (Virtual)" : ""}
-                                </span>
-                            </div>
-                            <div className={styles.accountDetailRow}>
-                                <span className={styles.detailLabel}>Status:</span>
-                                <span className={`${styles.detailValue} ${isLoading ? styles.loading : styles.connected}`}>
-                                    {isLoading ? "Connecting..." : "Connected ✅"}
                                 </span>
                             </div>
                         </div>
