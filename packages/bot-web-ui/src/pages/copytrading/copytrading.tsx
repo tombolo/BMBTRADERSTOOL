@@ -5,8 +5,6 @@ import { Icon, Text } from '@deriv/components';
 import { Localize } from '@deriv/translations';
 import { getCurrencyDisplayCode } from '@deriv/shared';
 import { useDevice } from '@deriv-com/ui';
-import AccountSwitcher from '../../../../core/src/App/Containers/AccountSwitcher';
-import AccountSwitcherMobile from '../../../../core/src/App/Containers/AccountSwitcher/account-switcher-mobile';
 import AccountInfoWrapper from '../../../../core/src/App/Components/Layout/Header/account-info-wrapper';
 import AccountInfoIcon from '../../../../core/src/App/Components/Layout/Header/account-info-icon';
 import DisplayAccountType from '../../../../core/src/App/Components/Layout/Header/display-account-type';
@@ -107,29 +105,6 @@ const Copytrading: React.FC<CopytradingProps> = ({
                     )}
                 </div>
             </AccountInfoWrapper>
-            {isDesktop ? (
-                <CSSTransition
-                    in={is_dialog_on}
-                    timeout={200}
-                    classNames={{
-                        enter: 'acc-switcher__wrapper--enter',
-                        enterDone: 'acc-switcher__wrapper--enter-done',
-                        exit: 'acc-switcher__wrapper--exit',
-                    }}
-                    unmountOnExit
-                >
-                    <div className="acc-switcher__wrapper">
-                        <AccountSwitcher />
-                    </div>
-                </CSSTransition>
-            ) : (
-                <AccountSwitcherMobile
-                    is_visible={is_dialog_on}
-                    disableApp={disableApp}
-                    enableApp={enableApp}
-                    toggle={toggleDialog}
-                />
-            )}
         </div>
     );
 };
