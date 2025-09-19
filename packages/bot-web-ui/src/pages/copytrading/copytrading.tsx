@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import styles from "./CopyTradingPage.module.scss";
+import AccountInfo from "../../../../core/src/App/Components/Layout/Header/account-info";
 
 export default function CopyTradingPage() {
-    const [loginId, setLoginId] = useState<string | null>(null);
-    const [name, setName] = useState<string | null>(null);
-    const [balance, setBalance] = useState<string | null>(null);
-    const [currency, setCurrency] = useState<string | null>(null);
+    const [loginId, setLoginId] = useState<string>("");
+    const [name, setName] = useState<string>("");
+    const [balance, setBalance] = useState<string>("");
+    const [currency, setCurrency] = useState<string>("");
     const [isVirtual, setIsVirtual] = useState<boolean>(false);
     const [traderToken, setTraderToken] = useState<string>("");
     const [isCopyTrading, setIsCopyTrading] = useState<boolean>(false);
@@ -16,13 +17,20 @@ export default function CopyTradingPage() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [activeToken, setActiveToken] = useState<string>("");
     const [copiedTrades, setCopiedTrades] = useState<number>(0);
+    const [accountList, setAccountList] = useState<any[]>([]);
+    const [activeAccount, setActiveAccount] = useState<any>(null);
+    const [isDialogOn, setIsDialogOn] = useState<boolean>(false);
+    const [accountType, setAccountType] = useState<string>("");
+    const [isEU, setIsEU] = useState<boolean>(false);
 
     const ws = useRef<WebSocket | null>(null);
 
     // Initialize WebSocket connection
     useEffect(() => {
-        const token = localStorage.getItem("activeToken");
+        // Get the active token from localStorage or URL parameters
+        const token = localStorage.getItem("activeToken") || getTokenFromURL();
         if (!token) {
+            showMessage("Please login first", "#EF4444");
             setIsLoading(false);
             return;
         }
@@ -30,19 +38,18 @@ export default function CopyTradingPage() {
         setActiveToken(token);
         initializeWebSocket(token);
 
-        // Fetch user info from localStorage
-        setLoginId(localStorage.getItem('active_loginid'));
-        setName(localStorage.getItem('name'));
-        setBalance(localStorage.getItem('balance'));
-        setCurrency(localStorage.getItem('currency'));
-        setIsVirtual(localStorage.getItem('is_virtual') === 'true');
-
         return () => {
             if (ws.current && ws.current.readyState === WebSocket.OPEN) {
                 ws.current.close();
             }
         };
     }, []);
+
+    // Extract token from URL parameters if present
+    const getTokenFromURL = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('token');
+    };
 
     const initializeWebSocket = (token: string) => {
         ws.current = new WebSocket("wss://ws.derivws.com/websockets/v3?app_id=70344");
@@ -58,6 +65,7 @@ export default function CopyTradingPage() {
         ws.current.onerror = (error) => {
             console.error("WebSocket error:", error);
             showMessage("Connection error. Please refresh the page.", "#EF4444");
+            setIsLoading(false);
         };
 
         ws.current.onclose = () => {
@@ -77,20 +85,42 @@ export default function CopyTradingPage() {
         if (data.error) {
             console.error("API Error:", data.error);
             showMessage(`Error: ${data.error.message}`, "#EF4444");
+            setIsLoading(false);
             return;
         }
 
         if (data.msg_type === "authorize") {
+            // Set user data from authorize response
             setLoginId(data.authorize.loginid);
-            setName(data.authorize.fullname || "---");
+            setName(data.authorize.fullname || "");
+            setCurrency(data.authorize.currency || "");
+            setIsVirtual(data.authorize.loginid.startsWith('VRTC'));
+            setAccountType(data.authorize.account_type || "");
+            setIsEU(data.authorize.is_eu || false);
+
+            // Get account list to see all available accounts
+            getAccountList();
+            // Get balance for the current account
             getAccountBalance();
         }
 
         if (data.msg_type === "balance") {
             const bal = data.balance.balance.toFixed(2);
-            const cur = data.balance.currency;
-            setBalance(`${bal} ${cur}`);
+            setBalance(bal);
             setIsLoading(false);
+        }
+
+        if (data.msg_type === "account_list") {
+            setAccountList(data.account_list || []);
+
+            // If we have accounts, set the active one based on loginid
+            if (data.account_list && data.account_list.length > 0) {
+                const currentAccount = data.account_list.find(
+                    (acc: any) => acc.loginid === loginId
+                ) || data.account_list[0];
+
+                setActiveAccount(currentAccount);
+            }
         }
 
         if (data.msg_type === "copy_start") {
@@ -114,10 +144,48 @@ export default function CopyTradingPage() {
         }
     };
 
+    const getAccountList = () => {
+        if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+            ws.current.send(JSON.stringify({ account_list: 1 }));
+        }
+    };
+
     const getAccountBalance = () => {
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
             ws.current.send(JSON.stringify({ balance: 1, subscribe: 1 }));
         }
+    };
+
+    const switchAccount = (loginid: string) => {
+        if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+            // Update the active account
+            const newActiveAccount = accountList.find(acc => acc.loginid === loginid);
+            if (newActiveAccount) {
+                setActiveAccount(newActiveAccount);
+                setLoginId(newActiveAccount.loginid);
+                setCurrency(newActiveAccount.currency || "");
+                setIsVirtual(newActiveAccount.loginid.startsWith('VRTC'));
+                setAccountType(newActiveAccount.account_type || "");
+                setIsEU(newActiveAccount.is_eu || false);
+
+                // Refresh balance for the new account
+                getAccountBalance();
+            }
+        }
+    };
+
+    const toggleDialog = () => {
+        setIsDialogOn(!isDialogOn);
+    };
+
+    const disableApp = () => {
+        // Implementation for disabling app interactions if needed
+        console.log("App disabled");
+    };
+
+    const enableApp = () => {
+        // Implementation for enabling app interactions if needed
+        console.log("App enabled");
     };
 
     const monitorCopiedTrades = () => {
@@ -158,7 +226,7 @@ export default function CopyTradingPage() {
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
             const copyStartRequest = {
                 copy_start: traderToken.trim(),
-                loginid: loginId !== "---" ? loginId : undefined,
+                loginid: loginId || undefined,
                 req_id: Date.now()
             };
 
@@ -184,7 +252,7 @@ export default function CopyTradingPage() {
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
             const copyStopRequest = {
                 copy_stop: traderToken.trim(),
-                loginid: loginId !== "---" ? loginId : undefined,
+                loginid: loginId || undefined,
                 req_id: Date.now()
             };
 
@@ -231,39 +299,51 @@ export default function CopyTradingPage() {
                         </div>
                     </div>
                     <div className={styles.userInfo}>
-                        <div className={styles.userAvatar}>
-                            {name ? name.split(' ').map(n => n[0]).join('').toUpperCase() : '---'}
-                        </div>
+                        {/* Use AccountInfo component in the header */}
+                        <AccountInfo
+                            loginid={loginId}
+                            balance={balance}
+                            currency={currency}
+                            is_virtual={isVirtual}
+                            account_type={accountType}
+                            is_eu={isEU}
+                            is_mobile={false}
+                            is_disabled={isLoading}
+                            is_dialog_on={isDialogOn}
+                            toggleDialog={toggleDialog}
+                            disableApp={disableApp}
+                            enableApp={enableApp}
+                            acc_switcher_disabled_message={isLoading ? "Loading accounts..." : ""}
+                        />
                     </div>
                 </header>
 
                 {/* Main Dashboard */}
                 <main className={styles.dashboardMain}>
-                    {/* Account Summary Card */}
-                    <div className={`${styles.accountSummaryCard} ${styles.sharpCard}`}>
-                        {isLoading ? (
-                            <div className={styles.loadingPulse}>
-                                <div className={styles.pulseLine}></div>
-                                <div className={`${styles.pulseLine} ${styles.short}`}></div>
+                    {/* Account Selector (if multiple accounts) */}
+                    {accountList.length > 1 && (
+                        <div className={`${styles.accountSelector} ${styles.sharpCard}`}>
+                            <h3 className={styles.sectionTitle}>
+                                <span className={styles.titleIcon}>👥</span>
+                                Select Account
+                            </h3>
+                            <div className={styles.accountsGrid}>
+                                {accountList.map(account => (
+                                    <div
+                                        key={account.loginid}
+                                        className={`${styles.accountItem} ${loginId === account.loginid ? styles.active : ''}`}
+                                        onClick={() => switchAccount(account.loginid)}
+                                    >
+                                        <div className={styles.accountLoginId}>{account.loginid}</div>
+                                        <div className={styles.accountType}>
+                                            {account.loginid.startsWith('VRTC') ? 'Virtual' : 'Real'}
+                                        </div>
+                                        <div className={styles.accountCurrency}>{account.currency}</div>
+                                    </div>
+                                ))}
                             </div>
-                        ) : (
-                            <>
-                                <div className={styles.accountInfo}>
-                                    <div className={styles.accountId}>{loginId}</div>
-                                    <div className={styles.accountName}>{name || "---"}</div>
-                                </div>
-                                <div className={styles.accountBalance}>
-                                    <div className={styles.balanceLabel}>Available Balance</div>
-                                    <div className={styles.balanceAmount}>{balance} {currency}</div>
-                                </div>
-                                <div className={styles.accountStatus}>
-                                    <span className={`${styles.statusIndicator} ${isCopyTrading ? styles.active : ''}`}>
-                                        {isCopyTrading ? 'Live Trading' : 'Not Trading'}
-                                    </span>
-                                </div>
-                            </>
-                        )}
-                    </div>
+                        </div>
+                    )}
 
                     {/* Trading Controls */}
                     <div className={`${styles.tradingControls} ${styles.sharpCard}`}>
