@@ -7,8 +7,7 @@ import { useDevice } from '@deriv-com/ui';
 import AccountInfoWrapper from '../../../../core/src/App/Components/Layout/Header/account-info-wrapper';
 import AccountInfoIcon from '../../../../core/src/App/Components/Layout/Header/account-info-icon';
 import DisplayAccountType from '../../../../core/src/App/Components/Layout/Header/display-account-type';
-import './CopyTradingPage.module.scss';
-
+import './CopyTradingPage.scss';
 
 const Copytrading: React.FC = () => {
     const [balance, setBalance] = useState<string>('0.00');
@@ -17,8 +16,8 @@ const Copytrading: React.FC = () => {
     const [accountType, setAccountType] = useState<string>('Real');
 
     const { isDesktop } = useDevice();
-    useEffect(() => {
-        // Example: get values from localStorage (or API call later)
+
+    const loadAccountData = () => {
         const stored_balance = localStorage.getItem('balance');
         const stored_currency = localStorage.getItem('currency');
         const stored_loginid = localStorage.getItem('active_loginid');
@@ -28,18 +27,41 @@ const Copytrading: React.FC = () => {
         if (stored_currency) setCurrency(stored_currency);
         if (stored_loginid) setLoginid(stored_loginid);
         if (stored_type) setAccountType(stored_type);
+    };
+
+    useEffect(() => {
+        loadAccountData();
+
+        // 🔄 Refresh when localStorage changes
+        const handleStorageChange = () => {
+            loadAccountData();
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        // Also patch localStorage.setItem to detect in same tab
+        const originalSetItem = localStorage.setItem;
+        localStorage.setItem = function (key, value) {
+            originalSetItem.apply(this, [key, value]);
+            window.dispatchEvent(new Event('storage')); // trigger reload
+        };
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            localStorage.setItem = originalSetItem; // cleanup
+        };
     }, []);
 
     return (
         <div className="copytrading__wrapper">
-            <AccountInfoWrapper is_disabled={false} disabled_message="" is_mobile={false}>
+            <AccountInfoWrapper is_disabled={false} disabled_message="" is_mobile={!isDesktop}>
                 <div
                     data-testid="dt_acc_info"
                     id="dt_core_account-info_acc-info"
                     className={classNames('copytrading__acc-info')}
                 >
                     <span className="copytrading__icon">
-                        <AccountInfoIcon is_virtual={false} currency={currency.toLowerCase()} />
+                        <AccountInfoIcon is_virtual={accountType.toLowerCase() === 'demo'} currency={currency.toLowerCase()} />
                     </span>
 
                     <div className="copytrading__details">
