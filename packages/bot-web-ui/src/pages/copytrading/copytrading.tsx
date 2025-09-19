@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
-import styles from "./copytrading.module.scss";
+import styles from "./CopyTradingPage.module.scss";
 
 export default function CopyTradingPage() {
     const [loginId, setLoginId] = useState<string | null>(null);
