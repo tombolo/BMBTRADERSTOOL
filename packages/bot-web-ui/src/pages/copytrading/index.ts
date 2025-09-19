@@ -1,4 +1,4 @@
 import Copytrading from './copytrading';
-import './CopyTradingPage.module.scss';
+import './CopyTradingPage.scss';
 
 export default Copytrading;
