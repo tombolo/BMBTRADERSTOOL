@@ -16,34 +16,6 @@ const GlobalLoading = () => {
         sp500: `4,7${Math.floor(Math.random() * 9)}${Math.floor(Math.random() * 9)}`,
     });
 
-    // Deriv partnership features data
-    const [derivFeatures, setDerivFeatures] = useState([
-        { 
-            icon: '🚀', 
-            title: 'Advanced Trading', 
-            description: 'Powered by Deriv API',
-            gradient: 'linear-gradient(135deg, #FF6B6B, #4ECDC4)'
-        },
-        { 
-            icon: '⚡', 
-            title: 'Instant Execution', 
-            description: 'Lightning-fast trades',
-            gradient: 'linear-gradient(135deg, #A166AB, #5073B8)'
-        },
-        { 
-            icon: '🛡️', 
-            title: 'Secure Platform', 
-            description: 'Regulated & trusted',
-            gradient: 'linear-gradient(135deg, #FFD93D, #6BCF7F)'
-        },
-        { 
-            icon: '📊', 
-            title: 'Live Markets', 
-            description: 'Real-time data feeds',
-            gradient: 'linear-gradient(135deg, #00D2FF, #3A7BD5)'
-        }
-    ]);
-
     // Check if device is mobile
     useEffect(() => {
         const checkMobile = () => {
@@ -196,71 +168,33 @@ const GlobalLoading = () => {
                 />
             </motion.div>
 
-            {/* Deriv Partnership Banner */}
-            <motion.div
-                className='deriv-partnership'
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-            >
-                <div className='partnership-badge'>
-                    <motion.div
-                        className='badge-icon'
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-                    >
-                        ⭐
-                    </motion.div>
-                    <span className='badge-text'>Powered by Deriv</span>
-                    <div className='badge-glow'></div>
-                </div>
+            {/* Deriv Branding */}
+            <div className='deriv-branding'>
                 <motion.div
-                    className='partnership-tagline'
+                    className='powered-by'
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
+                    transition={{ delay: 0.8, duration: 0.6 }}
                 >
-                    In Partnership with Deriv - World's Leading Trading Platform
+                    <span className='brand-text'>Powered by</span>
+                    <span className='deriv-name'>Deriv</span>
+                    <div className='brand-glow'></div>
                 </motion.div>
-            </motion.div>
+
+                <motion.div
+                    className='partnership'
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.2, duration: 0.6 }}
+                >
+                    <span className='brand-text'>In partnership with</span>
+                    <span className='deriv-name'>Deriv</span>
+                    <div className='brand-glow'></div>
+                </motion.div>
+            </div>
 
             {showElements && (
                 <div className='content-wrapper'>
-                    {/* Deriv Features Showcase */}
-                    <motion.div
-                        className='deriv-features'
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8 }}
-                    >
-                        <div className='features-grid'>
-                            {derivFeatures.map((feature, index) => (
-                                <motion.div
-                                    key={index}
-                                    className='feature-card'
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 1 + index * 0.1 }}
-                                    whileHover={{ 
-                                        scale: 1.05,
-                                        y: -5,
-                                        transition: { duration: 0.2 }
-                                    }}
-                                >
-                                    <div 
-                                        className='feature-icon'
-                                        style={{ background: feature.gradient }}
-                                    >
-                                        {feature.icon}
-                                    </div>
-                                    <h3 className='feature-title'>{feature.title}</h3>
-                                    <p className='feature-description'>{feature.description}</p>
-                                    <div className='feature-glow'></div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
-
                     {/* Trading terminal with holographic effect */}
                     <motion.div
                         className='trading-terminal'
