@@ -4,13 +4,14 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10000;
+    z-index: 99999; // Increased z-index to ensure it's on top
     backface-visibility: hidden;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     width: 100%;
     max-width: 600px;
     padding: 0 20px;
     box-sizing: border-box;
+    pointer-events: auto; // Ensure it can receive pointer events
     
     &--mobile, &--desktop {
         position: relative;
@@ -20,6 +21,7 @@
         margin: 0 auto;
         touch-action: none;
         min-height: auto;
+        pointer-events: auto; // Ensure child elements can receive pointer events
         
         // Beautiful shadow and animation
         box-shadow: 

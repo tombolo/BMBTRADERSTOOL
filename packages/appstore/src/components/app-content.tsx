@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import './app.scss';
 import './temporary-overrides.scss';
 import { useHistory } from 'react-router';
+import Disclaimer from './disclaimer/disclaimer';
 
 const AppContent: React.FC = observer(() => {
     const { ui, traders_hub, client } = useStore();
@@ -76,6 +77,7 @@ const AppContent: React.FC = observer(() => {
         >
             <div className='dw-dashboard'>
                 <Routes />
+                <Disclaimer />
             </div>
         </main>
     );
