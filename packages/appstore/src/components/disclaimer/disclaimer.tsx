@@ -13,7 +13,19 @@ const Disclaimer = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const toggleDisclaimer = () => {
-        setIsExpanded(!isExpanded);
+        const newExpandedState = !isExpanded;
+        setIsExpanded(newExpandedState);
+        
+        // Center the container when expanded
+        if (newExpandedState && containerRef.current) {
+            const containerWidth = containerRef.current.offsetWidth;
+            const containerHeight = containerRef.current.offsetHeight;
+            
+            setPosition({
+                x: (window.innerWidth - containerWidth) / 2,
+                y: (window.innerHeight - containerHeight) / 2
+            });
+        }
     };
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -121,7 +133,7 @@ const Disclaimer = () => {
     return (
         <div
             ref={containerRef}
-            className={`disclaimer-container ${isMobile ? 'disclaimer-container--mobile' : 'disclaimer-container--desktop'} ${isDragging ? 'disclaimer-container--dragging' : ''}`}
+            className={`disclaimer-container ${isMobile ? 'disclaimer-container--mobile' : 'disclaimer-container--desktop'} ${isExpanded ? 'disclaimer-container--expanded' : ''} ${isDragging ? 'disclaimer-container--dragging' : ''}`}
             style={(isMobile || isDesktop) ? {
                 transform: `translate(${position.x}px, ${position.y}px)`,
                 transition: isDragging ? 'none' : 'transform 0.2s ease'
@@ -156,7 +168,7 @@ const Disclaimer = () => {
             {isExpanded && (
                 <div
                     data-testid='dt_traders_hub_disclaimer'
-                    className={`disclaimer-content ${isMobile ? 'disclaimer-content--mobile' : 'disclaimer-content--desktop'}`}
+                    className={`disclaimer-content ${isMobile ? 'disclaimer-content--mobile' : 'disclaimer-content--desktop'} ${isExpanded ? 'disclaimer-content--expanded' : ''}`}
                 >
                     <Text align='left' className='disclaimer-text' size={isMobile ? 'xxxs' : 'xxs'}>
                         <Localize i18n_default_text='Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the following risks before trading Deriv products: a) you may lose some or all of the money you invest in the trade, b) if your trade involves currency conversion, exchange rates will affect your profit and loss. You should never trade with borrowed money or with money that you cannot afford to lose.' />
