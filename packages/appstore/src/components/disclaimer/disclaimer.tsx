@@ -10,39 +10,15 @@ const Disclaimer = () => {
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-    const [isInitialized, setIsInitialized] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
-
-    // Handle window resize to keep disclaimer centered
-    useEffect(() => {
-        const handleResize = () => {
-            if (containerRef.current) {
-                const containerWidth = containerRef.current.offsetWidth;
-                const containerHeight = containerRef.current.offsetHeight;
-                
-                setPosition({
-                    x: (window.innerWidth - containerWidth) / 2,
-                    y: Math.max(20, (window.innerHeight - containerHeight) / 2)
-                });
-            }
-        };
-
-        // Initial position
-        handleResize();
-        
-        // Add resize listener
-        window.addEventListener('resize', handleResize);
-        
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [isExpanded]);
 
     const toggleDisclaimer = () => {
         setIsExpanded(!isExpanded);
     };
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isDesktop) return;
+
         e.preventDefault();
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
@@ -75,6 +51,8 @@ const Disclaimer = () => {
     };
 
     const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+        if (!isMobile) return;
+
         const touch = e.touches[0];
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
@@ -83,7 +61,6 @@ const Disclaimer = () => {
             y: touch.clientY - rect.top
         });
         setIsDragging(true);
-        e.preventDefault(); // Prevent scrolling while dragging
     };
 
     const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -108,51 +85,90 @@ const Disclaimer = () => {
         setIsDragging(false);
     };
 
-    // Add/remove mouse and touch event listeners for dragging
+    // Initialize position - CENTERED by default
     useEffect(() => {
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
-        document.addEventListener('touchmove', handleTouchMove as any, { passive: false });
-        document.addEventListener('touchend', handleTouchEnd);
+        if (containerRef.current) {
+            const containerWidth = containerRef.current.offsetWidth;
+            const containerHeight = containerRef.current.offsetHeight;
 
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-            document.removeEventListener('touchmove', handleTouchMove as any);
-            document.removeEventListener('touchend', handleTouchEnd);
+            if (isMobile) {
+                // Center horizontally, position near top for mobile
+                setPosition({
+                    x: (window.innerWidth - containerWidth) / 2,
+                    y: window.innerHeight * 0.1 // 10% from top
+                });
+            } else if (isDesktop) {
+                // Center both horizontally and vertically for desktop
+                setPosition({
+                    x: (window.innerWidth - containerWidth) / 2,
+                    y: (window.innerHeight - containerHeight) / 2
+                });
+            }
+        }
+    }, [isMobile, isDesktop]);
+
+    // Reset to center when window is resized
+    useEffect(() => {
+        const handleResize = () => {
+            if (containerRef.current && !isDragging) {
+                const containerWidth = containerRef.current.offsetWidth;
+                const containerHeight = containerRef.current.offsetHeight;
+
+                if (isMobile) {
+                    setPosition({
+                        x: (window.innerWidth - containerWidth) / 2,
+                        y: window.innerHeight * 0.1
+                    });
+                } else if (isDesktop) {
+                    setPosition({
+                        x: (window.innerWidth - containerWidth) / 2,
+                        y: (window.innerHeight - containerHeight) / 2
+                    });
+                }
+            }
         };
-    }, [isDragging, dragOffset]);
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isMobile, isDesktop, isDragging]);
+
+    // Add/remove mouse event listeners for desktop dragging
+    useEffect(() => {
+        if (isDesktop) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+
+            return () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('mouseup', handleMouseUp);
+            };
+        }
+    }, [isDesktop, isDragging, dragOffset]);
 
     return (
         <div
             ref={containerRef}
-            className={`disclaimer-container ${isMobile ? 'disclaimer-container--mobile' : 'disclaimer-container--desktop'} ${isExpanded ? 'disclaimer-container--expanded' : ''} ${isDragging ? 'disclaimer-container--dragging' : ''}`}
-            style={{
-                transform: isDragging ? `translate(calc(${position.x}px - 50%), calc(${position.y}px - 50%))` : 'translate(-50%, -50%)',
-                transition: isDragging ? 'none' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                cursor: isDragging ? 'grabbing' : 'grab',
-                touchAction: 'none' // Prevent scrolling while dragging on mobile
-            }}
+            className={`disclaimer-container ${isMobile ? 'disclaimer-container--mobile' : 'disclaimer-container--desktop'} ${isDragging ? 'disclaimer-container--dragging' : ''}`}
+            style={(isMobile || isDesktop) ? {
+                transform: `translate(${position.x}px, ${position.y}px)`,
+                transition: isDragging ? 'none' : 'transform 0.2s ease'
+            } : {}}
             onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
         >
             <div
-                className={`disclaimer-header ${isMobile ? 'disclaimer-header--mobile' : 'disclaimer-header--desktop'} ${isExpanded ? 'disclaimer-header--expanded' : ''}`}
+                className={`disclaimer-header ${isMobile ? 'disclaimer-header--mobile' : 'disclaimer-header--desktop'}`}
                 onClick={toggleDisclaimer}
-                onMouseDown={handleMouseDown}
-                onTouchStart={handleTouchStart}
+                onMouseDown={isDesktop ? handleMouseDown : undefined}
                 data-testid='dt_disclaimer_header'
             >
-                <div className="disclaimer-header-content">
-                    <Text size={isMobile ? 'xxs' : 'xs'} weight='bold' className="disclaimer-title">
-                        <Localize i18n_default_text='⚠️ Risk Disclaimer' />
-                    </Text>
-                    <div className="disclaimer-indicator">
-                        {isExpanded ? '▼' : '▲'}
-                    </div>
-                </div>
+                <Text size={isMobile ? 'xxxs' : 'xxs'} weight='bold'>
+                    <Localize i18n_default_text='Risk Disclaimer' />
+                </Text>
                 {(isMobile || isDesktop) && (
                     <div className="disclaimer-drag-handle">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="8" height="8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 13C9.55228 13 10 12.5523 10 12C10 11.4477 9.55228 11 9 11C8.44772 11 8 11.4477 8 12C8 12.5523 8.44772 13 9 13Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             <path d="M9 6C9.55228 6 10 5.55228 10 5C10 4.44772 9.55228 4 9 4C8.44772 4 8 4.44772 8 5C8 5.55228 8.44772 6 9 6Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             <path d="M9 20C9.55228 20 10 19.5523 10 19C10 18.4477 9.55228 18 9 18C8.44772 18 8 18.4477 8 19C8 19.5523 8.44772 20 9 20Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -168,37 +184,37 @@ const Disclaimer = () => {
                 <div
                     data-testid='dt_traders_hub_disclaimer'
                     className={`disclaimer-content ${isMobile ? 'disclaimer-content--mobile' : 'disclaimer-content--desktop'} ${isExpanded ? 'disclaimer-content--expanded' : ''}`}
-                    style={{
-                        maxHeight: '70vh',
-                        overflowY: 'auto',
-                        WebkitOverflowScrolling: 'touch'
-                    }}
                 >
                     <div className="disclaimer-content-inner">
-                        <Text align='left' className='disclaimer-text' size={isMobile ? 'xs' : 's'}>
-                            <Localize i18n_default_text='Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the following risks before trading Deriv products:' />
+                        <Text align='left' className='disclaimer-text' size={isMobile ? 'xxs' : 'xs'}>
+                            <Localize i18n_default_text='Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk.' />
+                        </Text>
+                        <Text align='left' className='disclaimer-text disclaimer-text--important' size={isMobile ? 'xxs' : 'xs'}>
+                            <Localize i18n_default_text='Please make sure that you understand the following risks before trading Deriv products:' />
                         </Text>
                         <ul className="disclaimer-list">
                             <li className="disclaimer-list-item">
-                                <Text size={isMobile ? 'xxs' : 'xs'}>
+                                <Text align='left' className='disclaimer-text' size={isMobile ? 'xxs' : 'xs'}>
                                     <Localize i18n_default_text='You may lose some or all of the money you invest in the trade' />
                                 </Text>
                             </li>
                             <li className="disclaimer-list-item">
-                                <Text size={isMobile ? 'xxs' : 'xs'}>
+                                <Text align='left' className='disclaimer-text' size={isMobile ? 'xxs' : 'xs'}>
                                     <Localize i18n_default_text='If your trade involves currency conversion, exchange rates will affect your profit and loss' />
                                 </Text>
                             </li>
                         </ul>
-                        <Text align='left' className='disclaimer-warning' size={isMobile ? 'xs' : 's'} weight='bold'>
+                        <Text align='left' className='disclaimer-text disclaimer-text--warning' size={isMobile ? 'xxs' : 'xs'}>
                             <Localize i18n_default_text='You should never trade with borrowed money or with money that you cannot afford to lose.' />
                         </Text>
                     </div>
-                    <div className="disclaimer-close" onClick={() => setIsExpanded(false)}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </div>
+                    {(isMobile || isDesktop) && (
+                        <div className="disclaimer-close" onClick={() => setIsExpanded(false)}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </div>
+                    )}
                 </div>
             )}
         </div>
