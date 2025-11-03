@@ -13,27 +13,36 @@ const Disclaimer = () => {
     const [isInitialized, setIsInitialized] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Initialize to center of screen
+    // Handle window resize to keep disclaimer centered
     useEffect(() => {
-        if (containerRef.current && !isInitialized) {
-            const containerWidth = containerRef.current.offsetWidth;
-            const containerHeight = containerRef.current.offsetHeight;
-            
-            setPosition({
-                x: (window.innerWidth - containerWidth) / 2,
-                y: (window.innerHeight - containerHeight) / 2
-            });
-            setIsInitialized(true);
-        }
-    }, [isInitialized]);
+        const handleResize = () => {
+            if (containerRef.current) {
+                const containerWidth = containerRef.current.offsetWidth;
+                const containerHeight = containerRef.current.offsetHeight;
+                
+                setPosition({
+                    x: (window.innerWidth - containerWidth) / 2,
+                    y: Math.max(20, (window.innerHeight - containerHeight) / 2)
+                });
+            }
+        };
+
+        // Initial position
+        handleResize();
+        
+        // Add resize listener
+        window.addEventListener('resize', handleResize);
+        
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [isExpanded]);
 
     const toggleDisclaimer = () => {
         setIsExpanded(!isExpanded);
     };
 
     const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isDesktop) return;
-
         e.preventDefault();
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
@@ -66,8 +75,6 @@ const Disclaimer = () => {
     };
 
     const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-        if (!isMobile) return;
-
         const touch = e.touches[0];
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
@@ -76,6 +83,7 @@ const Disclaimer = () => {
             y: touch.clientY - rect.top
         });
         setIsDragging(true);
+        e.preventDefault(); // Prevent scrolling while dragging
     };
 
     const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -100,35 +108,38 @@ const Disclaimer = () => {
         setIsDragging(false);
     };
 
-    // Add/remove mouse event listeners for desktop dragging
+    // Add/remove mouse and touch event listeners for dragging
     useEffect(() => {
-        if (isDesktop) {
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener('mousemove', handleMouseMove);
+        document.addEventListener('mouseup', handleMouseUp);
+        document.addEventListener('touchmove', handleTouchMove as any, { passive: false });
+        document.addEventListener('touchend', handleTouchEnd);
 
-            return () => {
-                document.removeEventListener('mousemove', handleMouseMove);
-                document.removeEventListener('mouseup', handleMouseUp);
-            };
-        }
-    }, [isDesktop, isDragging, dragOffset]);
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+            document.removeEventListener('touchmove', handleTouchMove as any);
+            document.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, [isDragging, dragOffset]);
 
     return (
         <div
             ref={containerRef}
             className={`disclaimer-container ${isMobile ? 'disclaimer-container--mobile' : 'disclaimer-container--desktop'} ${isExpanded ? 'disclaimer-container--expanded' : ''} ${isDragging ? 'disclaimer-container--dragging' : ''}`}
-            style={(isMobile || isDesktop) ? {
-                transform: `translate(${position.x}px, ${position.y}px)`,
-                transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-            } : {}}
+            style={{
+                transform: isDragging ? `translate(calc(${position.x}px - 50%), calc(${position.y}px - 50%))` : 'translate(-50%, -50%)',
+                transition: isDragging ? 'none' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                cursor: isDragging ? 'grabbing' : 'grab',
+                touchAction: 'none' // Prevent scrolling while dragging on mobile
+            }}
             onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
         >
             <div
                 className={`disclaimer-header ${isMobile ? 'disclaimer-header--mobile' : 'disclaimer-header--desktop'} ${isExpanded ? 'disclaimer-header--expanded' : ''}`}
                 onClick={toggleDisclaimer}
-                onMouseDown={isDesktop ? handleMouseDown : undefined}
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
                 data-testid='dt_disclaimer_header'
             >
                 <div className="disclaimer-header-content">
@@ -157,6 +168,11 @@ const Disclaimer = () => {
                 <div
                     data-testid='dt_traders_hub_disclaimer'
                     className={`disclaimer-content ${isMobile ? 'disclaimer-content--mobile' : 'disclaimer-content--desktop'} ${isExpanded ? 'disclaimer-content--expanded' : ''}`}
+                    style={{
+                        maxHeight: '70vh',
+                        overflowY: 'auto',
+                        WebkitOverflowScrolling: 'touch'
+                    }}
                 >
                     <div className="disclaimer-content-inner">
                         <Text align='left' className='disclaimer-text' size={isMobile ? 'xs' : 's'}>

@@ -1,15 +1,23 @@
 // disclaimer.scss
 .disclaimer-container {
     position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10000;
     backface-visibility: hidden;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    width: 100%;
+    max-width: 600px;
+    padding: 0 20px;
+    box-sizing: border-box;
     
     &--mobile, &--desktop {
-        position: fixed;
+        position: relative;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        width: 100%;
+        margin: 0 auto;
         touch-action: none;
         min-height: auto;
         
@@ -61,15 +69,17 @@
         }
         
         &.disclaimer-container--expanded {
-            max-width: 600px;
+            max-width: 100%;
+            width: 100%;
         }
     }
     
     &--mobile {
-        max-width: 250px;
+        max-width: 90%;
         
         &.disclaimer-container--expanded {
-            max-width: 90vw;
+            max-width: 100%;
+            width: 100%;
         }
     }
 }
@@ -160,9 +170,11 @@
 }
 
 .disclaimer-content {
-    background: transparent;
+    background: white;
     position: relative;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 16px 16px;
     
     &--mobile, &--desktop {
         position: relative;
