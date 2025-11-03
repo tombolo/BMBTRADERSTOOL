@@ -12,11 +12,14 @@
     
     // Desktop styles - make it draggable and centered by default
     @include desktop-screen {
-        width: auto;
-        max-width: 280px;
-        border-radius: 8px;
+        width: 400px; // Increased width
+        max-width: 90%;
+        border-radius: 12px;
         overflow: visible;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        transform: translate(-50%, -50%); // Center the element
+        left: 50%;
+        top: 50%;
     }
     
     &--mobile, &--desktop {
@@ -28,10 +31,12 @@
         align-items: flex-end;
         touch-action: none;
         z-index: 10000;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         
         &.disclaimer-container--dragging {
-            opacity: 0.9;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+            opacity: 0.95;
+            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.25);
+            transform: translate(-50%, -50%) scale(1.02);
         }
     }
     
@@ -44,7 +49,8 @@
     }
     
     &--desktop {
-        max-width: 280px;
+        max-width: 400px;
+        width: 100%;
         cursor: move;
         
         &:active {
@@ -119,12 +125,13 @@
 
 .disclaimer-content {
     background: #ffffff;
-    padding: 1rem;
-    max-height: 50vh;
+    padding: 1.5rem;
+    max-height: 70vh;
     overflow-y: auto;
     position: relative;
     border: 1px solid #e5e7eb;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
     
     // Desktop styles
     @include desktop-screen {
@@ -182,7 +189,9 @@
     }
     
     &--desktop {
-        width: 300px;
+        width: 400px;
+        max-width: 90vw;
+        padding: 1.5rem;
     }
     
     &--mobile {
