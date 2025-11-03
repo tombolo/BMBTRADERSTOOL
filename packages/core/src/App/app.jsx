@@ -165,10 +165,12 @@ const AppWithoutTranslation = ({ root_store }) => {
                                     <P2PSettingsProvider>
                                         <TranslationProvider defaultLang={language} i18nInstance={i18nInstance}>
                                             {/* This is required as translation provider uses suspense to reload language */}
-                                            <React.Suspense fallback={<GlobalLoading />}>
-                                                <AppContent passthrough={platform_passthrough} />
+                                            <>
                                                 <RiskDisclaimer />
-                                            </React.Suspense>
+                                                <React.Suspense fallback={<GlobalLoading />}>
+                                                    <AppContent passthrough={platform_passthrough} />
+                                                </React.Suspense>
+                                            </>
                                         </TranslationProvider>
                                     </P2PSettingsProvider>
                                 </POIProvider>
