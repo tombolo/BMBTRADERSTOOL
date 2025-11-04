@@ -293,19 +293,49 @@
 
     .content {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 1.75rem;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
         padding: 1rem 0;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+        padding-right: 1rem;
+        
+        /* Custom scrollbar */
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary-light) transparent;
+        
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 3px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--primary-light);
+            border-radius: 3px;
+        }
+        
+        @media (max-width: 1280px) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        @media (max-width: 1024px) {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+            max-height: calc(100vh - 180px);
+        }
     }
 
     .grid {
-        display: grid;
-        gap: 12px;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        padding: 0.75rem 0;
-
+        display: contents; /* Remove grid container to use parent grid */
+        
         @media (max-width: 767px) {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 10px;
         }
     }
@@ -327,6 +357,10 @@
         border-radius: var(--border-radius);
         padding: 1.5rem;
         box-shadow: var(--card-shadow);
+        height: 100%;
+        min-height: 240px;
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
         position: relative;
         height: 240px;
