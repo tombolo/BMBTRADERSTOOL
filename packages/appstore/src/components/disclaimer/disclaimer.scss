@@ -14,11 +14,12 @@
     }
     
     // Desktop styles - make it draggable
+    // Desktop styles - make it draggable (moved to left side)
     @include desktop-screen {
         width: auto;
         max-width: 240px;
-        left: auto;
-        right: 10px;
+        left: 10px;        // 👈 move to 10px from the left edge
+        right: auto;       // 👈 disable right anchoring
         bottom: 80px;
         transform: none;
         border-radius: 4px;
