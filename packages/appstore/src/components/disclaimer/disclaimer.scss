@@ -1,51 +1,33 @@
 // disclaimer.scss
 .disclaimer-container {
     position: fixed;
-    bottom: 2rem;
-    width: 100%;
+    bottom: 1.5rem;
+    left: 1.5rem;
     z-index: 9999;
     backface-visibility: hidden;
-    left: 0;
+    width: auto;
     
     // Mobile and tablet styles
     @include mobile-or-tablet-screen {
-        bottom: 0;
-        min-height: auto;
-        width: 95%;
-        max-width: 500px;
-        margin: 0 auto;
-        left: 0;
-        right: 0;
-        padding: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+        right: auto;
+        width: auto;
+        max-width: calc(100% - 2rem);
     }
     
-    // Desktop styles - make it draggable
+    // Desktop styles
     @include desktop-screen {
-        width: auto;
-        max-width: 240px;
-        left: auto;
-        right: 10px;
-        bottom: 80px;
-        transform: none;
-        border-radius: 4px;
-        overflow: visible;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        max-width: 280px;
     }
     
     &--mobile, &--desktop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: auto;
-        max-width: 80%;
+        position: relative;
         width: 100%;
         height: auto;
-        max-height: 70vh;
-        bottom: auto;
-        min-height: auto;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
+        align-items: flex-start;
         touch-action: none;
         z-index: 10000;
         
@@ -98,23 +80,37 @@
         padding: 0.4rem 0.6rem;
         position: relative;
         z-index: 10001;
-        border-radius: 4px;
-        width: auto;
-        min-width: 80px;
-        flex-direction: column;
-        gap: 4px;
+        border-radius: 8px;
+        width: 100%;
+        min-width: 200px;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        font-weight: 500;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        border: none;
+        
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
     }
     
     &--mobile, &--desktop {
-        padding: 6px 6px;
-        min-height: auto;
-        writing-mode: horizontal-tb;
-        transform: none;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
-        background-color: #d97706;
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 6px;
+        padding: 0.5rem 1rem;
+        min-height: 40px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        font-weight: 500;
+        justify-content: flex-start;
+        gap: 8px;
         
         .disclaimer-drag-handle {
             display: flex;
@@ -130,13 +126,18 @@
 
 .disclaimer-content {
     background: #ffffff;
-    padding: 1.2rem 1rem 1rem;
-    max-height: 50vh;
+    padding: 1.5rem;
+    max-height: 70vh;
     overflow-y: auto;
-    position: relative;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 0;
+    width: 320px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transform-origin: bottom left;
+    animation: fadeIn 0.2s ease-out;
     
     // Custom scrollbar
     &::-webkit-scrollbar {
@@ -156,25 +157,24 @@
     
     // Desktop styles
     @include desktop-screen {
-        padding: 1.2rem 1.2rem 1rem;
-        max-height: 60vh;
-        width: 300px;
+        width: 320px;
     }
     
     // Mobile styles
     @include mobile-or-tablet-screen {
-        padding: 1rem 1rem 0.8rem;
-        max-height: 50vh;
-        width: 280px;
+        width: calc(100vw - 2rem);
+        left: 0;
+        right: 0;
+        margin: 0 auto;
     }
     
     &--mobile, &--desktop {
         position: relative;
         max-height: 60vh;
-        margin-top: 8px;
+        margin-bottom: 8px;
         z-index: 10001;
-        background: linear-gradient(145deg, #ffffff, #f8f9fa);
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
         
         .disclaimer-close {
             position: absolute;
