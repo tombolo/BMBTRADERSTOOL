@@ -166,7 +166,7 @@ const AppWithoutTranslation = ({ root_store }) => {
                                         <TranslationProvider defaultLang={language} i18nInstance={i18nInstance}>
                                             {/* This is required as translation provider uses suspense to reload language */}
                                             <>
-                                                <RiskDisclaimer />
+                                                <Disclaimer />
                                                 <React.Suspense fallback={<GlobalLoading />}>
                                                     <AppContent passthrough={platform_passthrough} />
                                                 </React.Suspense>
