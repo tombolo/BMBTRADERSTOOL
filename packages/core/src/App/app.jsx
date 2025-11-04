@@ -6,7 +6,7 @@ import GlobalLoading from './GlobalLoading';
 
 import { APIProvider } from '@deriv/api';
 import { CashierStore } from '@deriv/cashier';
-import RiskDisclaimer from '../Components/RiskDisclaimer/RiskDisclaimer';
+import Disclaimer from '../../../appstore/src/components/disclaimer/disclaimer';
 import { CFDStore } from '@deriv/cfd';
 import { Loading } from '@deriv/components';
 import {

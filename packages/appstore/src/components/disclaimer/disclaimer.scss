@@ -1,29 +1,38 @@
 .disclaimer-container {
-    position: fixed;
+    position: absolute;
     z-index: 9999;
     backface-visibility: hidden;
+    /* Center the container by default */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     
     // Mobile and tablet styles
     @include mobile-or-tablet-screen {
-        width: 100%;
-        bottom: 0;
+        width: 90%;
+        max-width: 400px;
         min-height: auto;
+        position: absolute;
+        /* Reset transform for mobile if needed */
+        transform: translate(-50%, -50%);
+        /* Center in the viewport */
+        left: 50%;
+        top: 50%;
+        bottom: auto;
     }
     
     // Desktop styles - make it draggable and centered by default
     @include desktop-screen {
-        width: 400px; // Increased width
+        width: 400px;
         max-width: 90%;
         border-radius: 12px;
         overflow: visible;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-        transform: translate(-50%, -50%); // Center the element
-        left: 50%;
-        top: 50%;
+        /* Already centered by default styles */
     }
     
     &--mobile, &--desktop {
-        position: fixed;
+        position: absolute;
         width: auto;
         min-height: auto;
         display: flex;
@@ -52,6 +61,8 @@
         max-width: 400px;
         width: 100%;
         cursor: move;
+        margin: 0;
+        padding: 0;
         
         &:active {
             cursor: grabbing;
