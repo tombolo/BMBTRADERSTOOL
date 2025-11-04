@@ -8,7 +8,7 @@
     
     position: relative;
     background: #ffffff;
-    border-radius: 16px;
+    border-radius: 8px; /* Reduced from 16px */
     padding: 1.75rem 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     cursor: pointer;
@@ -16,12 +16,31 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     transform: translateY(0);
     opacity: 1;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 2px solid #d1d5db; /* Added 2px solid border */
     min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 1.5rem;
+    position: relative;
+    
+    /* Premium ribbon */
+    &::before {
+        content: 'PREMIUM';
+        position: absolute;
+        top: 10px;
+        right: -30px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 30px;
+        transform: rotate(45deg);
+        transform-origin: left top;
+        z-index: 3;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        letter-spacing: 1px;
+    }
 
     @media (max-width: 768px) {
         padding: 1.25rem;
@@ -114,11 +133,11 @@
 
     &__border-glow {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        border-radius: inherit;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border-radius: 10px;
         padding: 2px;
         -webkit-mask: 
             linear-gradient(#fff 0 0) content-box, 
@@ -179,22 +198,23 @@
 
     &__premium {
         position: absolute;
-        top: 16px;
-        right: 16px;
+        top: 12px;
+        right: 12px;
         background: linear-gradient(135deg, #f59e0b, #d97706);
         color: #ffffff;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 700;
-        padding: 0.35rem 1rem;
-        border-radius: 20px;
-        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+        padding: 0.3rem 0.8rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 2;
+        z-index: 4;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         display: flex;
         align-items: center;
-        gap: 0.4rem;
+        gap: 0.3rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
         
         &::before {
             content: '★';
