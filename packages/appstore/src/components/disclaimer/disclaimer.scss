@@ -11,6 +11,12 @@
     @include mobile-or-tablet-screen {
         bottom: 0;
         min-height: auto;
+        width: 95%;
+        max-width: 500px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        padding: 1rem;
     }
     
     // Desktop styles - make it draggable
@@ -31,7 +37,10 @@
         top: 0;
         left: 0;
         width: auto;
-        max-width: 65%;
+        max-width: 80%;
+        width: 100%;
+        height: auto;
+        max-height: 70vh;
         bottom: auto;
         min-height: auto;
         display: flex;
@@ -261,8 +270,9 @@
     
     // Mobile styles
     @include mobile-or-tablet-screen {
-        font-size: 0.88rem;
+        font-size: 0.95rem;
         line-height: 1.7;
+        padding: 1rem;
     }
 }
 
