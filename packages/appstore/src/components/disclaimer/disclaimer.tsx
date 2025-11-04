@@ -85,52 +85,25 @@ const Disclaimer = () => {
         setIsDragging(false);
     };
 
-    // Initialize position - CENTERED by default
+    // Initialize position
     useEffect(() => {
         if (containerRef.current) {
-            const containerWidth = containerRef.current.offsetWidth;
-            const containerHeight = containerRef.current.offsetHeight;
-
             if (isMobile) {
-                // Center horizontally, position near top for mobile
+                const containerWidth = containerRef.current.offsetWidth;
                 setPosition({
-                    x: (window.innerWidth - containerWidth) / 2,
-                    y: window.innerHeight * 0.1 // 10% from top
+                    x: window.innerWidth - containerWidth - 10,
+                    y: window.innerHeight * 0.3
                 });
             } else if (isDesktop) {
-                // Center both horizontally and vertically for desktop
+                // Position at bottom right on desktop
+                const containerWidth = containerRef.current.offsetWidth;
                 setPosition({
-                    x: (window.innerWidth - containerWidth) / 2,
-                    y: (window.innerHeight - containerHeight) / 2
+                    x: window.innerWidth - containerWidth - 10,
+                    y: window.innerHeight - 80
                 });
             }
         }
     }, [isMobile, isDesktop]);
-
-    // Reset to center when window is resized
-    useEffect(() => {
-        const handleResize = () => {
-            if (containerRef.current && !isDragging) {
-                const containerWidth = containerRef.current.offsetWidth;
-                const containerHeight = containerRef.current.offsetHeight;
-
-                if (isMobile) {
-                    setPosition({
-                        x: (window.innerWidth - containerWidth) / 2,
-                        y: window.innerHeight * 0.1
-                    });
-                } else if (isDesktop) {
-                    setPosition({
-                        x: (window.innerWidth - containerWidth) / 2,
-                        y: (window.innerHeight - containerHeight) / 2
-                    });
-                }
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, [isMobile, isDesktop, isDragging]);
 
     // Add/remove mouse event listeners for desktop dragging
     useEffect(() => {
@@ -183,35 +156,15 @@ const Disclaimer = () => {
             {isExpanded && (
                 <div
                     data-testid='dt_traders_hub_disclaimer'
-                    className={`disclaimer-content ${isMobile ? 'disclaimer-content--mobile' : 'disclaimer-content--desktop'} ${isExpanded ? 'disclaimer-content--expanded' : ''}`}
+                    className={`disclaimer-content ${isMobile ? 'disclaimer-content--mobile' : 'disclaimer-content--desktop'}`}
                 >
-                    <div className="disclaimer-content-inner">
-                        <Text align='left' className='disclaimer-text' size={isMobile ? 'xxs' : 'xs'}>
-                            <Localize i18n_default_text='Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk.' />
-                        </Text>
-                        <Text align='left' className='disclaimer-text disclaimer-text--important' size={isMobile ? 'xxs' : 'xs'}>
-                            <Localize i18n_default_text='Please make sure that you understand the following risks before trading Deriv products:' />
-                        </Text>
-                        <ul className="disclaimer-list">
-                            <li className="disclaimer-list-item">
-                                <Text align='left' className='disclaimer-text' size={isMobile ? 'xxs' : 'xs'}>
-                                    <Localize i18n_default_text='You may lose some or all of the money you invest in the trade' />
-                                </Text>
-                            </li>
-                            <li className="disclaimer-list-item">
-                                <Text align='left' className='disclaimer-text' size={isMobile ? 'xxs' : 'xs'}>
-                                    <Localize i18n_default_text='If your trade involves currency conversion, exchange rates will affect your profit and loss' />
-                                </Text>
-                            </li>
-                        </ul>
-                        <Text align='left' className='disclaimer-text disclaimer-text--warning' size={isMobile ? 'xxs' : 'xs'}>
-                            <Localize i18n_default_text='You should never trade with borrowed money or with money that you cannot afford to lose.' />
-                        </Text>
-                    </div>
+                    <Text align='left' className='disclaimer-text' size={isMobile ? 'xxxs' : 'xxs'}>
+                        <Localize i18n_default_text='Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the following risks before trading Deriv products: a) you may lose some or all of the money you invest in the trade, b) if your trade involves currency conversion, exchange rates will affect your profit and loss. You should never trade with borrowed money or with money that you cannot afford to lose.' />
+                    </Text>
                     {(isMobile || isDesktop) && (
                         <div className="disclaimer-close" onClick={() => setIsExpanded(false)}>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </div>
                     )}
