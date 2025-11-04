@@ -66,7 +66,7 @@
 
         .dbot-workspace-card__action {
             background-color: var(--primary-color);
-            color: white;
+            color: #ffffff;
             box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1);
             
             .dbot-workspace-card__arrow {
@@ -92,7 +92,7 @@
         
         span {
             position: absolute;
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: linear-gradient(135deg, #1e40af, #f59e0b);
             border-radius: 50%;
             pointer-events: none;
             opacity: 0.6;
@@ -143,10 +143,10 @@
             padding: 2px;
             background: linear-gradient(
                 135deg,
-                var(--primary-color),
-                var(--secondary-color),
-                var(--accent-color),
-                var(--primary-color)
+                #1e40af,
+                #3b82f6,
+                #f59e0b,
+                #1e40af
             );
             background-size: 300% 300%;
             animation: border-glow 6s linear infinite;
@@ -212,7 +212,7 @@
         text-overflow: ellipsis;
         flex: 1;
         margin-right: 1.5rem;
-        color: var(--primary-color);
+        color: #1e40af;
         transition: all 0.2s ease;
         letter-spacing: -0.01em;
         position: relative;
@@ -225,7 +225,7 @@
             left: 0;
             width: 40px;
             height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
             border-radius: 2px;
             transition: width 0.3s ease;
         }
@@ -249,7 +249,7 @@
     &__percent {
         font-size: 0.95rem;
         font-weight: 700;
-        color: var(--primary-color);
+        color: #1e40af;
         min-width: 50px;
         text-align: right;
         transition: all 0.3s ease;
@@ -339,7 +339,7 @@
         align-items: center;
         background: #f8fafc;
         border: 1px solid #e2e8f0;
-        color: var(--primary-color);
+        color: #1e40af;
         padding: 0.65rem 1.5rem;
         border-radius: 8px;
         font-weight: 600;
