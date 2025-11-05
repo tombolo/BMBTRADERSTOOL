@@ -27,6 +27,7 @@ import StatesDigitSwitcherV2 from './bots/STATESDigitSwitcherV2.xml';
 import SignalSniperAutoBot from './bots/SignalSniperAutoBot.xml';
 import V6StrikerBot from './bots/V6strikerbot.xml';
 import MasterG8OverUnder from './bots/masterG8OVERUNDERBYSTATEFXVERSION12026.xml';
+import BRAM_ENTRYPOINT_EXPERT from './bots/BRAM_ENTRYPOINT_EXPERT.xml';
 
 
 // Ensure Blockly is available globally
@@ -39,6 +40,13 @@ const getBlockly = () => {
 
 // Static bot configurations - Bots from utils/bots
 const STATIC_BOTS = {
+    hm_speed_bot2: {
+        id: 'hm_speed_bot2',
+        name: 'BRAM ENTRYPOINT EXPERT',
+        xml: BRAM_ENTRYPOINT_EXPERT,
+        timestamp: Date.now(),
+        save_type: save_types.LOCAL,
+    },
     hm_speed_bot: {
         id: 'hm_speed_bot',
         name: 'HM SPEED BOT',
